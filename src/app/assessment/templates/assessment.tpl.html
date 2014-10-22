@@ -1,0 +1,87 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2 flex >
+            {{ app.assessment.title }}
+        </h2>
+        <md-button class="md-button md-button-raised md-theme-red" ng-click="app.updateAssessment(app.assessment)">
+            Delete
+        </md-button>
+    </div>
+</md-toolbar>
+<md-content >
+    <md-tabs selected="data.selectedIndex"  center>
+        <md-tab label="Start"></md-tab>
+        <md-tab label="Tests"></md-tab>
+        <md-tab label="Tips" ></md-tab>
+        <md-tab label="Guides"></md-tab>
+    </md-tabs>
+
+    <div class="animate-switch-container" ng-switch on="data.selectedIndex">
+        <div class="animate-switch tab1"
+             ng-switch-when="0"
+             md-swipe-left="next()"
+             md-swipe-right="previous()" >
+            <md-toolbar>
+                <div class="md-toolbar-tools">
+                    <span flex></span>
+                    <md-button class="md-button-colored" ng-click="app.updateStart(app.assessment)">
+                        Update
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <form name="assessDetails" layout-padding>
+                <textarea name="instruction" rows="5" ng-model="app.assessment.instructions" placeholder="description"></textarea>
+                <div>
+                    <h3>Start Code</h3>
+                    <div ui-ace="app.AceConfig.java" ng-model="app.assessment.startCode"></div>
+                </div>
+            </form>
+        </div>
+        <div class="animate-switch tab2"
+             ng-switch-when="1"
+             md-swipe-left="next()"
+             md-swipe-right="previous()" >
+            <md-list>
+                <md-item >
+                    <md-item-content>
+                        <div class="md-tile-left">
+                            <h3>
+                                {{ test.title }}
+                            </h3>
+                            <textarea name="expect" rows="5" ng-model="test.expectations"></textarea>
+                        </div>
+                        <div class="md-tile-content">
+                            <div ui-ace="app.AceConfig.java" ng-model="test.code"></div>
+                        </div>
+                        <div class="md-tile-right" layout="horizontal" layout-padding>
+                            <md-button class="md-button md-button-fab">
+                                <i class="ion-checkmark-round"></i>
+                            </md-button>
+                            <md-button class="md-button md-button-fab">
+                                <i class="ion-close-round"></i>
+                            </md-button>
+                        </div>
+                    </md-item-content>
+                </md-item>
+            </md-list>
+        </div>
+        <div class="animate-switch tab3"
+             ng-switch-when="2"
+             md-swipe-left="next()"
+             md-swipe-right="previous()" >
+            View for Item #3<br/>
+            Selection index = 2
+        </div>
+        <div class="animate-switch tab4"
+             ng-switch-when="3"
+             md-swipe-left="next()"
+             md-swipe-right="previous()" >
+            View for Item #4<br/>
+            Selection index = 3
+        </div>
+    </div>
+
+
+
+
+</md-content>

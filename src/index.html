@@ -1,0 +1,45 @@
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <title>Code Grader</title>
+    <base href="/"/>
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="vendor/ionicons/css/ionicons.css"/>
+    <link rel="stylesheet" href="vendor/angular-material/angular-material.css"/>
+    <link rel="stylesheet" href="style/main.css" type="text/css"/>
+    <!-- endbuild -->
+</head>
+<body ng-app="app" layout="vertical" layout-fill>
+
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <span>Code Grader</span>
+
+        <span flex></span>
+
+        <md-button>
+            Sign In
+        </md-button>
+    </div>
+
+</md-toolbar>
+<ui-view layout="vertical" layout-fill style="padding-bottom: 66px;"></ui-view>
+
+<!-- build:js scripts/scripts.js -->
+<script src="vendor/hammerjs/hammer.js"></script>
+<script src="vendor/ace-builds/src-noconflict/ace.js"></script>
+<script src="vendor/ace-builds/src-noconflict/mode-java.js"></script>
+
+<script src="vendor/angular/angular.js"></script>
+<script src="vendor/angular-animate/angular-animate.js"></script>
+<script src="vendor/angular-aria/angular-aria.js"></script>
+<script src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="vendor/angular-ui-ace/ui-ace.js"></script>
+<script src="vendor/angular-material/angular-material.js"></script>
+
+<script src="build.js"></script>
+<script src="templates.js"></script>
+<!-- endbuild -->
+
+</body>
+</html>

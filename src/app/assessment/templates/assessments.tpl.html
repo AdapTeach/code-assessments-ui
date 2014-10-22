@@ -1,0 +1,25 @@
+<section layout="horizontal" layout-fill>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" style="height:100%;" component-id="left" is-locked-open="$media('md')">
+        <md-toolbar class="md-theme-light">
+            <div class="md-toolbar-tools" layout="horizontal">
+                <h1 flex>Assessments list</h1>
+                <md-button ng-click="close()" class="md-button-colored" hide-md>
+                    X
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-content class="md-content-padding">
+            <section layout="vertical" class="btn-list">
+                <md-button ui-sref="assessment.creation" class="md-button md-button-raised md-button-colored">
+                    Create
+                </md-button>
+                <md-button ng-repeat="assessment in ::app.assessments" ui-sref="assessment.details({ id : assessment._id })" class="md-button">
+                    {{ assessment.title }}
+                </md-button>
+            </section>
+
+        </md-content>
+
+    </md-sidenav>
+    <section ui-view="assess"></section>
+</section>
