@@ -70,6 +70,8 @@ gulp.task('cleanDevFolder', function (cb) {
 gulp.task('copyLibs', function () {
     gulp.src(pathToLibs)
         .pipe(copy('dev', {prefix: 1}));
+    gulp.src(pathToFonts)
+        .pipe(copy('dev',{prefix : 1}))
 });
 
 gulp.task('buildJs', function () {

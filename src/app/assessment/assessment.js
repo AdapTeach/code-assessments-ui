@@ -1,4 +1,6 @@
-angular.module('assessment', ['ui.router'])
+angular.module('assessment', [
+    'ui.router'
+])
     .config(function($stateProvider){
         $stateProvider
             .state('assessment',{
