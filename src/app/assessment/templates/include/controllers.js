@@ -1,20 +1,31 @@
 angular.module('assessment')
-    .controller('GuidesCtrl',function($atAssessment){
+    .controller('GuidesCtrl',function($atAssessment,$mdToast){
 
-        this.save = function($index,guide){
-
+        this.save = function(guide){
+            $atAssessment.updateGuide(guide).then(function(){
+                $mdToast.show({
+                    template : '<md-toast>guide updated</md-toast>'
+                })
+            });
         };
 
-        this.remove = function($index){
-            $atAssessment.removeGuide($index)
+        this.remove = function($index,guide){
+            $atAssessment.removeGuide($index,guide).then(function(){
+                $mdToast.show({
+                    template : '<md-toast>guide removed</md-toast>'
+                })
+            });
         };
 
-        this.up = function(index,guide){
+        this.move = function(from,to){
+            var options = {
+                new : to,
+                index : from,
+                type : 'guide'
+            };
+            $atAssessment.moveChildren(options).then(function(){
 
-        };
-
-        this.down = function(index,guide){
-
+            })
         };
     })
     .controller('TipsCtrl',function($atAssessment){
@@ -22,8 +33,8 @@ angular.module('assessment')
 
         };
 
-        this.remove = function(tip){
-
+        this.remove = function(index,tip){
+            $atAssessment.removeTip(index,tip);
         };
     })
     .controller('TestsCtrl',function($atAssessment,$mdDialog){

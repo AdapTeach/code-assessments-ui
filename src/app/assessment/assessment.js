@@ -62,10 +62,9 @@ angular.module('assessment', [
             $mdBottomSheet.show(option);
         };
     })
-    .controller('AssessmentCtrl',function(assessment,AceConfig,$atAssessment){
+    .controller('AssessmentCtrl',function(assessment,$atAssessment){
 
         angular.extend(this,assessment);
-
         this.delete = function(){
             $atAssessment.delete(assessment._id).then(function(){
 
@@ -77,11 +76,7 @@ angular.module('assessment', [
 
             });
         };
-
-
     })
-
-
     .controller('AssessmentCreationCtrl',function($atAssessment){
         this.create = $atAssessment.create;
     });

@@ -72,7 +72,18 @@ angular.module('backend', [])
 
         service.removeGuide = function($index,guide){
             var deffered = $q.defer();
-            $http.delete(BACKEND_URL + URI + service.data._id + '/guide/'+$index,guide).success(function(){
+            $http.delete(BACKEND_URL + URI + service.data._id + '/guide/'+guide._id).success(function(){
+                service.data.guides.splice($index,1);
+                deffered.resolve()
+            }).error(function(err){
+                deffered.reject();
+            });
+            return deffered.promise;
+        };
+
+        service.updateGuide = function(guide){
+            var deffered = $q.defer();
+            $http.put(BACKEND_URL + URI + service.data._id + '/guide/'+guide._id,guide).success(function(){
                 deffered.resolve()
             }).error(function(err){
                 deffered.reject();
@@ -91,12 +102,23 @@ angular.module('backend', [])
             return deffered.promise;
         };
 
-        service.removeTip = function($index,guide){
+        service.updateTip = function($index,tip){
             var deffered = $q.defer();
-            $http.delete(BACKEND_URL + URI + service.data._id + '/tip/'+guide+_id).success(function(){
+            $http.put(BACKEND_URL + URI + service.data._id + '/tip/'+$index,tip).success(function(tip){
+                service.data.tips[$index] = tip;
                 deffered.resolve()
             }).error(function(err){
-                service.data.guides.splice($index,1);
+                deffered.reject();
+            });
+            return deffered.promise;
+        };
+
+        service.removeTip = function($index,tip){
+            var deffered = $q.defer();
+            $http.delete(BACKEND_URL + URI + service.data._id + '/tip/'+tip._id).success(function(){
+                service.data.tips.splice($index,1);
+                deffered.resolve()
+            }).error(function(err){
                 deffered.reject();
             });
             return deffered.promise;
@@ -122,6 +144,21 @@ angular.module('backend', [])
                 deffered.reject();
             });
             return deffered.promise;
+        };
+
+        service.moveChildren =  function(option){
+            $http.put(BACKEND_URL + URI + service.data._id + '/' + option.type + '/' + option.index + '/move/' + option.new).success(function(){
+                switch(option.type){
+                    case 'guide':
+                        service.data.guides.move(option.index,option.new);
+                        break;
+                    case 'tip':
+
+                        break;
+                }
+            }).error(function(err){
+
+            });
         };
 
         return service;
