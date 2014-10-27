@@ -1,0 +1,15 @@
+<md-bottom-sheet>
+    <form name="guideCreation">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <span flex>new test</span>
+                <md-button class="md-button" ng-click="test.save()">
+                    Save
+                </md-button>
+            </div>
+        </md-toolbar>
+        <input type="text" ng-model="test.title" style="width: 100%;" placeholder="title..."/>
+        <div ui-ace="app.AceConfig.java" ng-model="test.code"></div>
+        <textarea rows="5" ng-model="test.expectations" placeholder="expectations..."></textarea>
+    </form>
+</md-bottom-sheet>

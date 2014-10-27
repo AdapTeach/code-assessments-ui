@@ -6,8 +6,8 @@
         </md-button>
     </div>
 </md-toolbar>
-<md-list>
-    <md-item ng-repeat="tip in app.assessment.tips">
+<md-list ng-controller="TipsCtrl as tips">
+    <md-item ng-repeat="tip in assessment.tips">
         <md-item-content>
             <div class="md-tile-left">
                 {{ $index }}

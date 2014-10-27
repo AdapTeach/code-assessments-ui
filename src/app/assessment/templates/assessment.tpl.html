@@ -1,9 +1,9 @@
 <md-toolbar>
     <div class="md-toolbar-tools">
         <h2 flex >
-            {{ app.assessment.title }}
+            {{ assessment.title }}
         </h2>
-        <md-button class="md-button md-button-raised md-theme-red" ng-click="app.delete()">
+        <md-button class="md-button md-button-raised md-theme-red" ng-click="assessment.delete()">
             Delete
         </md-button>
     </div>
@@ -33,7 +33,7 @@
              ng-switch-when="2"
              md-swipe-left="next()"
              md-swipe-right="previous()" >
-            <ng-include ng-controller="TipsCtrl as tips" src="'assessment/templates/include/tips.tpl.html'"></ng-include>
+            <ng-include  src="'assessment/templates/include/tips.tpl.html'"></ng-include>
         </div>
         <div class="animate-switch tab4"
              ng-switch-when="3"

@@ -24,7 +24,7 @@ angular.module('assessment', [
                 views : {
                     assess : {
                         templateUrl : 'assessment/templates/assessment.tpl.html',
-                        controller : 'AssessmentCtrl as app'
+                        controller : 'AssessmentCtrl as assessment'
                     }
                 }
             })
@@ -33,32 +33,14 @@ angular.module('assessment', [
                 views : {
                     assess : {
                         templateUrl : 'assessment/templates/assessment-creation.tpl.html',
-                        controller : 'AssessmentCreationCtrl as app'
+                        controller : 'AssessmentCreationCtrl as assessment'
                     }
                 }
             });
     })
-    .controller('AssessmentsCtrl',function(assessments){
+    .controller('AssessmentsCtrl',function(assessments,AceConfig,$mdBottomSheet){
         this.assessments = assessments;
-
-    })
-    .controller('AssessmentCtrl',function(assessment,AceConfig,$atAssessment,$mdBottomSheet,$mdToast){
-        var self = this;
         this.AceConfig = AceConfig;
-        this.assessment = assessment;
-
-        this.delete = function(){
-            $atAssessment.delete(assessment._id).then(function(){
-
-            });
-        };
-
-        this.update = function(){
-            $atAssessment.update(assessment._id,assessment).then(function(){
-
-            });
-        };
-
         this.bottomSheet = function($event,type){
             var option = {
                 targetEvent : $event
@@ -80,9 +62,26 @@ angular.module('assessment', [
             $mdBottomSheet.show(option);
         };
     })
+    .controller('AssessmentCtrl',function(assessment,AceConfig,$atAssessment){
+
+        angular.extend(this,assessment);
+
+        this.delete = function(){
+            $atAssessment.delete(assessment._id).then(function(){
+
+            });
+        };
+
+        this.update = function(){
+            $atAssessment.update(assessment._id,assessment).then(function(){
+
+            });
+        };
 
 
-    .controller('AssessmentCreationCtrl',function($atAssessment,AceConfig){
-        this.AceConfig = AceConfig;
-        this.createAssessment = $atAssessment.create;
+    })
+
+
+    .controller('AssessmentCreationCtrl',function($atAssessment){
+        this.create = $atAssessment.create;
     });

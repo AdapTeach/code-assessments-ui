@@ -35,4 +35,22 @@ angular.module('assessment')
                 $mdBottomSheet.cancel(err);
             })
         };
+    })
+    .controller('TestCtrl',function($atAssessment,$mdBottomSheet,$mdToast){
+        var self = this;
+        this.save = function(){
+            $atAssessment.addTest(self).then(function(){
+                $mdToast.show({
+                    template: '<md-toast>Test created</md-toast>',
+                    hideDelay: 3000
+                });
+                $mdBottomSheet.hide();
+            }).then(function(err){
+                $mdToast.show({
+                    template: '<md-toast>error</md-toast>',
+                    hideDelay: 3000
+                });
+                $mdBottomSheet.cancel(err);
+            })
+        };
     });

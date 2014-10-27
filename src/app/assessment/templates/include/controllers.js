@@ -26,3 +26,19 @@ angular.module('assessment')
 
         };
     })
+    .controller('TestsCtrl',function($atAssessment,$mdDialog){
+        this.edit = function($event,test){
+            $mdDialog.show({
+                templateUrl : 'assessment/templates/dialog/test.tpl.html',
+                targetEvent: $event,
+                locals : {
+                    test : test
+                },
+                controller : 'TestDialogCtrl as test'
+            });
+        };
+
+        this.remove = function(test){
+
+        };
+    });

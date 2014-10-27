@@ -6,10 +6,10 @@
         </md-button>
     </div>
 </md-toolbar>
-<md-list>
-    <md-item ng-repeat="test in app.assessments.test">
+<md-list ng-controller="TestsCtrl as tests">
+    <md-item ng-repeat="test in assessment.tests">
         <md-item-content>
-            <md-button class="md-button" style="width:100%;" ng-click="app.detailTest(test)">
+            <md-button class="md-button" style="width:100%;" ng-click="tests.edit($event,test)">
                 {{ test.title }}
             </md-button>
         </md-item-content>

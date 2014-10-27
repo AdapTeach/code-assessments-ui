@@ -4,7 +4,7 @@
             Create an assessment
         </span>
         <span flex></span>
-        <md-button class="md-button-colored" ng-click="app.createAssessment(app.assessment)">
+        <md-button class="md-button-colored" ng-click="assessment.create(app.assessment)">
             Save
         </md-button>
     </div>
@@ -13,18 +13,18 @@
     <form name="assessCreation" layout-padding>
         <div layout-md="horizontal" layout="vertical">
             <div flex-md="40">
-                <input ng-model="app.assessment.title" type="text" name="title"  style="width:100%;" placeholder="title"/>
+                <input ng-model="assessment.title" type="text" name="title"  style="width:100%;" placeholder="title"/>
                 <p hide block-md>
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias asperiores consequatur cum deleniti et fugit incidunt mollitia, obcaecati omnis, placeat provident quas quidem quo, quos saepe sapiente sit vero voluptatibus.
                 </p>
             </div>
             <div flex-md="60">
-                <textarea name="instruction" rows="5" ng-model="app.assessment.instructions" placeholder="description"></textarea>
+                <textarea name="instruction" rows="5" ng-model="assessment.instructions" placeholder="description"></textarea>
             </div>
         </div>
         <div>
             <h3>Start Code</h3>
-            <div ui-ace="app.AceConfig.java" ng-model="app.assessment.startCode"></div>
+            <div ui-ace="app.AceConfig.java" ng-model="assessment.startCode"></div>
         </div>
     </form>
 </md-content>

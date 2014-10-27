@@ -82,10 +82,10 @@ angular.module('backend', [])
 
         service.addTip = function(tip){
             var deffered = $q.defer();
-            $http.post(BACKEND_URL + URI + service.data._id + '/tip',tip).success(function(guide){
+            $http.post(BACKEND_URL + URI + service.data._id + '/tip',tip).success(function(tip){
+                service.data.tips.push(tip)
                 deffered.resolve()
             }).error(function(err){
-                service.data.guides.splice($index,1);
                 deffered.reject();
             });
             return deffered.promise;
@@ -93,18 +93,7 @@ angular.module('backend', [])
 
         service.removeTip = function($index,guide){
             var deffered = $q.defer();
-            $http.delete(BACKEND_URL + URI + service.data._id + '/guide/'+$index,guide).success(function(){
-                service.data.guides.splice($index,1);
-                deffered.resolve()
-            }).error(function(err){
-                deffered.reject();
-            });
-            return deffered.promise;
-        };
-
-        service.addTest = function($index,guide){
-            var deffered = $q.defer();
-            $http.post(BACKEND_URL + URI + service.data._id + '/guide/'+$index,guide).success(function(guide){
+            $http.delete(BACKEND_URL + URI + service.data._id + '/tip/'+guide+_id).success(function(){
                 deffered.resolve()
             }).error(function(err){
                 service.data.guides.splice($index,1);
@@ -113,9 +102,20 @@ angular.module('backend', [])
             return deffered.promise;
         };
 
-        service.removeTest = function($index,guide){
+        service.addTest = function(test){
             var deffered = $q.defer();
-            $http.delete(BACKEND_URL + URI + service.data._id + '/guide/'+$index,guide).success(function(){
+            $http.post(BACKEND_URL + URI + service.data._id + '/test',test).success(function(test){
+                service.data.tests.push(test);
+                deffered.resolve()
+            }).error(function(err){
+                deffered.reject(err);
+            });
+            return deffered.promise;
+        };
+
+        service.removeTest = function($index,test){
+            var deffered = $q.defer();
+            $http.delete(BACKEND_URL + URI + service.data._id + '/guide/'+test._id).success(function(){
                 service.data.guides.splice($index,1);
                 deffered.resolve()
             }).error(function(err){
