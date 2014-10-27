@@ -80,9 +80,9 @@ angular.module('backend', [])
             return deffered.promise;
         };
 
-        service.addTip = function($index,guide){
+        service.addTip = function(tip){
             var deffered = $q.defer();
-            $http.post(BACKEND_URL + URI + service.data._id + '/guide/'+$index,guide).success(function(guide){
+            $http.post(BACKEND_URL + URI + service.data._id + '/tip',tip).success(function(guide){
                 deffered.resolve()
             }).error(function(err){
                 service.data.guides.splice($index,1);

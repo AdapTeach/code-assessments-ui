@@ -64,6 +64,10 @@ angular.module('assessment', [
                 targetEvent : $event
             };
             switch(type){
+                case 'tip':
+                    option.templateUrl = 'assessment/templates/bottom/tip.tpl.html';
+                    option.controller = 'TipCtrl as tip';
+                    break;
                 case 'guide':
                     option.templateUrl = 'assessment/templates/bottom/guide.tpl.html';
                     option.controller = 'GuideCtrl as guide';
@@ -76,55 +80,8 @@ angular.module('assessment', [
             $mdBottomSheet.show(option);
         };
     })
-    .controller('TipsCtrl',function($atAssessment){
-        this.add = function(){
 
-        };
 
-        this.save = function(tip){
-
-        };
-
-        this.remove = function(tip){
-
-        };
-    })
-    .controller('GuidesCtrl',function($atAssessment){
-
-        this.save = function($index,guide){
-
-        };
-
-        this.remove = function($index){
-            $atAssessment.removeGuide($index)
-        };
-
-        this.up = function(index,guide){
-
-        };
-
-        this.down = function(index,guide){
-
-        };
-    })
-    .controller('GuideCtrl',function($atAssessment,$mdBottomSheet,$mdToast){
-        var self = this;
-        this.save = function(){
-            $atAssessment.addGuide(self).then(function(guide){
-                $mdToast.show({
-                    template: '<md-toast>Guide '+guide.title+' created</md-toast>',
-                    hideDelay: 3000
-                });
-                $mdBottomSheet.hide();
-            }).then(function(err){
-                $mdToast.show({
-                    template: '<md-toast>error</md-toast>',
-                    hideDelay: 3000
-                });
-                $mdBottomSheet.cancel(err);
-            })
-        };
-    })
     .controller('AssessmentCreationCtrl',function($atAssessment,AceConfig){
         this.AceConfig = AceConfig;
         this.createAssessment = $atAssessment.create;

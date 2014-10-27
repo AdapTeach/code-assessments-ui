@@ -1,7 +1,7 @@
 <md-toolbar>
     <div class="md-toolbar-tools">
         <span flex></span>
-        <md-button class="md-button md-button-raised" ng-click="tips.add()">
+        <md-button class="md-button md-button-raised" ng-click="app.bottomSheet($event,'tip')">
             Add a tips
         </md-button>
     </div>
@@ -13,7 +13,7 @@
                 {{ $index }}
             </div>
             <div class="md-tile-content">
-                <textarea row="3"  ng-model="tip"></textarea>
+                <textarea row="5"  ng-model="tip"></textarea>
             </div>
             <div class="md-tile-right">
                 <md-button class="md-button md-button-raised md-theme-green" ng-click="tips.save(tip)">

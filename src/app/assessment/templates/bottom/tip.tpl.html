@@ -1,0 +1,13 @@
+<md-bottom-sheet>
+    <form name="guideCreation">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <span flex>Tip creation</span>
+                <md-button class="md-button" ng-click="tip.save()">
+                    Save
+                </md-button>
+            </div>
+        </md-toolbar>
+        <textarea rows="5" ng-model="tip.text" placeholder="a new tip..."></textarea>
+    </form>
+</md-bottom-sheet>
