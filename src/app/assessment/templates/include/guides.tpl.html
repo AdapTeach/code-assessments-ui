@@ -1,0 +1,36 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <span flex></span>
+        <md-button class="md-button md-button-raised" ng-click="app.bottomSheet($event,'guide')">
+            Add a guide
+        </md-button>
+    </div>
+</md-toolbar>
+<md-list ng-controller="GuidesCtrl as guides">
+    <md-item ng-repeat="guide in app.assessment.guides">
+        <md-item-content>
+            <div class="md-tile-left">
+                {{ $index }}
+            </div>
+            <div class="md-tile-content">
+                <input type="text" ng-model="guide.title"/>
+                <div ui-ace="app.AceConfig.java" ng-model="guide.code"></div>
+            </div>
+            <div class="md-tile-right" layout="vertical">
+                <md-button class="md-button md-button-icon">
+                    <i class="ion-arrow-up-a"></i>
+                </md-button>
+
+                <md-button class="md-button md-button-raised md-theme-green" style="width: 100%" ng-click="guides.update($index,guide)">
+                    Save
+                </md-button>
+                <md-button class="md-button md-button-raised md-theme-red" style="width: 100%" ng-click="guides.remove($index)">
+                    Remove
+                </md-button>
+                <md-button class="md-button md-button-icon" ng-click="guides.down($index)">
+                    <i class="ion-arrow-down-a"></i>
+                </md-button>
+            </div>
+        </md-item-content>
+    </md-item>
+</md-list>

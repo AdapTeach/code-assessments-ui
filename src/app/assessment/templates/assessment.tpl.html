@@ -3,7 +3,7 @@
         <h2 flex >
             {{ app.assessment.title }}
         </h2>
-        <md-button class="md-button md-button-raised md-theme-red" ng-click="app.updateAssessment(app.assessment)">
+        <md-button class="md-button md-button-raised md-theme-red" ng-click="app.delete()">
             Delete
         </md-button>
     </div>
@@ -21,116 +21,26 @@
              ng-switch-when="0"
              md-swipe-left="next()"
              md-swipe-right="previous()" >
-            <md-toolbar>
-                <div class="md-toolbar-tools">
-                    <span flex></span>
-                    <md-button class="md-button md-button-raised md-theme-green" ng-click="app.updateStart(app.assessment)">
-                        Update
-                    </md-button>
-                </div>
-            </md-toolbar>
-            <form name="assessDetails" layout-padding>
-                <textarea name="instruction" rows="5" ng-model="app.assessment.instructions" placeholder="description"></textarea>
-                <div>
-                    <h3>Start Code</h3>
-                    <div ui-ace="app.AceConfig.java" ng-model="app.assessment.startCode"></div>
-                </div>
-            </form>
+          <ng-include  src="'assessment/templates/include/info.tpl.html'"></ng-include>
         </div>
         <div class="animate-switch tab2"
              ng-switch-when="1"
              md-swipe-left="next()"
              md-swipe-right="previous()" >
-            <md-toolbar>
-                <div class="md-toolbar-tools">
-                    <span flex></span>
-                    <md-button class="md-button md-button-raised" ng-click="app.openTestCreation()">
-                        Add a test
-                    </md-button>
-                </div>
-            </md-toolbar>
-            <md-list>
-                <md-item ng-repeat="test in app.assessments.test">
-                    <md-item-content>
-                        <md-button class="md-button" style="width:100%;" ng-click="app.openTestDetails(test)">
-                            {{ test.title }}
-                        </md-button>
-                    </md-item-content>
-                </md-item>
-            </md-list>
+            <ng-include src="'assessment/templates/include/tests.tpl.html'"></ng-include>
         </div>
         <div class="animate-switch tab3"
              ng-switch-when="2"
              md-swipe-left="next()"
              md-swipe-right="previous()" >
-            <md-toolbar>
-                <div class="md-toolbar-tools">
-                    <span flex></span>
-                    <md-button class="md-button md-button-raised" ng-click="app.addTips()">
-                        Add a tips
-                    </md-button>
-                </div>
-            </md-toolbar>
-            <md-list>
-                <md-item ng-repeat="tips in app.assessment.tips">
-                    <md-item-content>
-                        <div class="md-tile-left">
-                            {{ $index }}
-                        </div>
-                        <div class="md-tile-content">
-                            <input type="text" ng-model="tips"/>
-                        </div>
-                        <div class="md-tile-right">
-                            <md-button class="md-button md-button-raised md-theme-red" ng-click="app.removeTips($index)">
-                                Remove
-                            </md-button>
-                        </div>
-                    </md-item-content>
-                </md-item>
-            </md-list>
+            <ng-include ng-controller="TipsCtrl as tips" src="'assessment/templates/include/tips.tpl.html'"></ng-include>
         </div>
         <div class="animate-switch tab4"
              ng-switch-when="3"
              md-swipe-left="next()"
              md-swipe-right="previous()" >
-            <md-toolbar>
-                <div class="md-toolbar-tools">
-                    <span flex></span>
-                    <md-button class="md-button md-button-raised" ng-click="app.addGuide()">
-                        Add a guide
-                    </md-button>
-                </div>
-            </md-toolbar>
-            <md-list>
-                <md-item ng-repeat="guide in app.assessment.guides">
-                    <md-item-content>
-                        <div class="md-tile-left">
-                            {{ $index }}
-                        </div>
-                        <div class="md-tile-content">
-                            <div ui-ace="app.AceConfig.java" ng-model="guide"></div>
-                        </div>
-                        <div class="md-tile-right" layout="vertical">
-                            <md-button class="md-button md-button-icon">
-                                <i class="ion-arrow-up-a"></i>
-                            </md-button>
-                            <md-button class="md-button md-button-raised md-theme-green" style="width: 100%" ng-click="app.updateGuide($index,guide)">
-                                Update
-                            </md-button>
-                            <md-button class="md-button md-button-raised md-theme-red" style="width: 100%" ng-click="app.removeGuide($index)">
-                                Remove
-                            </md-button>
-                            <md-button class="md-button md-button-icon">
-                                <i class="ion-arrow-down-a"></i>
-                            </md-button>
-                        </div>
-                    </md-item-content>
-                </md-item>
-            </md-list>
+            <ng-include src="'assessment/templates/include/guides.tpl.html'"></ng-include>
+
         </div>
     </div>
-
-
-
-
 </md-content>

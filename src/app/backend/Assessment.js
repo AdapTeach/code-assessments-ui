@@ -19,7 +19,8 @@ angular.module('backend', [])
         service.fetchOne = function(assessmentId){
             var deferred = $q.defer();
             $http.get(BACKEND_URL + URI + assessmentId).success(function(data){
-                deferred.resolve(data);
+                service.data = data;
+                deferred.resolve(service.data);
             }).error(function(err){
                 deferred.reject(err);
             });
@@ -47,7 +48,7 @@ angular.module('backend', [])
             return deferred.promise;
         };
 
-        service.remove = function(assessmentId){
+        service.delete = function(assessmentId){
             var deferred = $q.defer();
             $http.delete(BACKEND_URL + URI + assessmentId).success(function(data){
                 service.assessment = data;
@@ -56,6 +57,71 @@ angular.module('backend', [])
                 deferred.reject(err);
             });
             return deferred.promise;
+        };
+
+        service.addGuide = function(guide){
+            var deffered = $q.defer();
+            $http.post(BACKEND_URL + URI + service.data._id + '/guide',guide).success(function(guide){
+                service.data.guides.push(guide);
+                deffered.resolve(guide)
+            }).error(function(err){
+                deffered.reject(err);
+            });
+            return deffered.promise;
+        };
+
+        service.removeGuide = function($index,guide){
+            var deffered = $q.defer();
+            $http.delete(BACKEND_URL + URI + service.data._id + '/guide/'+$index,guide).success(function(){
+                deffered.resolve()
+            }).error(function(err){
+                deffered.reject();
+            });
+            return deffered.promise;
+        };
+
+        service.addTip = function($index,guide){
+            var deffered = $q.defer();
+            $http.post(BACKEND_URL + URI + service.data._id + '/guide/'+$index,guide).success(function(guide){
+                deffered.resolve()
+            }).error(function(err){
+                service.data.guides.splice($index,1);
+                deffered.reject();
+            });
+            return deffered.promise;
+        };
+
+        service.removeTip = function($index,guide){
+            var deffered = $q.defer();
+            $http.delete(BACKEND_URL + URI + service.data._id + '/guide/'+$index,guide).success(function(){
+                service.data.guides.splice($index,1);
+                deffered.resolve()
+            }).error(function(err){
+                deffered.reject();
+            });
+            return deffered.promise;
+        };
+
+        service.addTest = function($index,guide){
+            var deffered = $q.defer();
+            $http.post(BACKEND_URL + URI + service.data._id + '/guide/'+$index,guide).success(function(guide){
+                deffered.resolve()
+            }).error(function(err){
+                service.data.guides.splice($index,1);
+                deffered.reject();
+            });
+            return deffered.promise;
+        };
+
+        service.removeTest = function($index,guide){
+            var deffered = $q.defer();
+            $http.delete(BACKEND_URL + URI + service.data._id + '/guide/'+$index,guide).success(function(){
+                service.data.guides.splice($index,1);
+                deffered.resolve()
+            }).error(function(err){
+                deffered.reject();
+            });
+            return deffered.promise;
         };
 
         return service;
