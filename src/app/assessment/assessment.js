@@ -38,8 +38,8 @@ angular.module('assessment', [
                 }
             });
     })
-    .controller('AssessmentsCtrl',function(assessments,AceConfig,$mdBottomSheet){
-        this.assessments = assessments;
+    .controller('AssessmentsCtrl',function(assessments,AceConfig,$mdBottomSheet,$atAssessment){
+        this.assessments = $atAssessment.list;
         this.AceConfig = AceConfig;
         this.bottomSheet = function($event,type){
             var option = {
@@ -62,21 +62,40 @@ angular.module('assessment', [
             $mdBottomSheet.show(option);
         };
     })
-    .controller('AssessmentCtrl',function(assessment,$atAssessment){
-
+    .controller('AssessmentCtrl',function(assessment,$atAssessment,$mdToast,$state){
         angular.extend(this,assessment);
-        this.delete = function(){
-            $atAssessment.delete(assessment._id).then(function(){
 
+        this.delete = function(){
+            $atAssessment.delete(this).then(function(){
+                $mdToast.show({
+                    template : '<md-toast>Assessment removed</md-toast>'
+                });
+                $state.go('assessment.creation');
             });
         };
 
         this.update = function(){
-            $atAssessment.update(assessment._id,assessment).then(function(){
-
+            var options = {
+                _id : this._id,
+                startCode : this.startCode,
+                title : this.title,
+                instructions : this.instructions
+            };
+            $atAssessment.update(options).then(function(){
+                angular.extend(this,$atAssessment.data);
+                $mdToast.show({
+                    template : '<md-toast>Assessment updated</md-toast>'
+                })
             });
         };
     })
-    .controller('AssessmentCreationCtrl',function($atAssessment){
-        this.create = $atAssessment.create;
+    .controller('AssessmentCreationCtrl',function($atAssessment,$state){
+        this.create = function(){
+            $atAssessment.create(this).then(function(assessId){
+                $mdToast.show({
+                    template : '<md-toast>Assessment created</md-toast>'
+                });
+                $state.go('assessment.details',{ id : assessId });
+            });
+        };
     });

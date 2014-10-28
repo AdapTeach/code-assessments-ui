@@ -1,36 +1,33 @@
 <md-toolbar>
     <div class="md-toolbar-tools">
         <span flex></span>
-        <md-button class="md-button md-button-raised" ng-click="app.bottomSheet($event,'guide')">
+        <md-button class="md-button md-button-colored" ng-click="app.bottomSheet($event,'guide')">
             Add a guide
         </md-button>
     </div>
 </md-toolbar>
 <md-list ng-controller="GuidesCtrl as guides">
-    {{assessment.guide()}}
     <md-item ng-repeat="guide in assessment.guides">
-        <md-item-content>
-            <div class="md-tile-left">
-                {{ $index }}
-            </div>
-            <div class="md-tile-content">
-                <input type="text" ng-model="guide.title"/>
-                <div ui-ace="app.AceConfig.java" ng-model="guide.code"></div>
-            </div>
-            <div class="md-tile-right" layout="vertical">
-                <md-button class="md-button md-button-icon" ng-click="guides.move($index,$index-1)" ng-disabled="$index == 0">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <input type="text" ng-model="guide.title" flex/>
+                <md-button class="md-button md-button-icon" ng-click="guides.move($index,$index-1)" ng-if="$index != 0">
                     <i class="ion-arrow-up-a"></i>
                 </md-button>
-
-                <md-button class="md-button md-button-raised md-theme-green" style="width: 100%" ng-click="guides.update($index,guide)">
-                    Save
+                <md-button class="md-button md-button-icon" ng-click="guides.update(guide)">
+                    <i class="ion-upload"></i>
                 </md-button>
-                <md-button class="md-button md-button-raised md-theme-red" style="width: 100%" ng-click="guides.remove($index,guide)">
-                    Remove
+                <md-button class="md-button md-button-icon" ng-click="guides.remove($index,guide)">
+                    <i class="ion-trash-a"></i>
                 </md-button>
-                <md-button class="md-button md-button-icon" ng-click="guides.move($index,$index-1)" ng-disabled="assessment.guides.length == $index+1">
+                <md-button class="md-button md-button-icon" ng-click="guides.move($index,$index+1)" ng-if="assessment.guides.length != $index+1">
                     <i class="ion-arrow-down-a"></i>
                 </md-button>
+            </div>
+        </md-toolbar>
+        <md-item-content>
+            <div class="md-tile-content">
+                <div ui-ace="app.AceConfig.java" ng-model="guide.code"></div>
             </div>
         </md-item-content>
     </md-item>

@@ -9,6 +9,7 @@ angular.module('backend', [])
         service.fetchAll = function(){
             var deferred = $q.defer();
             $http.get(BACKEND_URL + URI ).success(function(data){
+                service.list = data;
                 deferred.resolve(data);
             }).error(function(err){
                 deferred.reject(err);
@@ -30,17 +31,19 @@ angular.module('backend', [])
         service.create = function (assess) {
             var deferred = $q.defer();
             $http.post(BACKEND_URL + URI, assess).success(function(data){
-                deferred.resolve(data);
+                service.list.push(data);
+                console.log(service.list)
+                deferred.resolve(data._id);
             }).error(function(err){
-                console.log(err);
                 deferred.reject(err);
             });
             return deferred.promise;
         };
 
-        service.update= function(assessmentId,assess){
+        service.update= function(assessment){
             var deferred = $q.defer();
-            $http.put(BACKEND_URL + URI + assessmentId, assess).success(function(data){
+            $http.put(BACKEND_URL + URI + assessment._id, assessment).success(function(assessment){
+                service.data = assessment;
                 deferred.resolve();
             }).error(function(err){
                 deferred.reject(err);
@@ -48,10 +51,18 @@ angular.module('backend', [])
             return deferred.promise;
         };
 
-        service.delete = function(assessmentId){
+        function removeAssesment(list,asses){
+            list.forEach(function(v,k){
+                if(v._id == asses._id){
+                    list.splice(k,1);
+                }
+            });
+        }
+
+        service.delete = function(assessment){
             var deferred = $q.defer();
-            $http.delete(BACKEND_URL + URI + assessmentId).success(function(data){
-                service.assessment = data;
+            $http.delete(BACKEND_URL + URI + assessment._id).success(function(){
+                removeAssesment(service.list,assessment);
                 deferred.resolve();
             }).error(function(err){
                 deferred.reject(err);
@@ -83,6 +94,7 @@ angular.module('backend', [])
 
         service.updateGuide = function(guide){
             var deffered = $q.defer();
+            console.log(guide);
             $http.put(BACKEND_URL + URI + service.data._id + '/guide/'+guide._id,guide).success(function(){
                 deffered.resolve()
             }).error(function(err){
@@ -94,7 +106,7 @@ angular.module('backend', [])
         service.addTip = function(tip){
             var deffered = $q.defer();
             $http.post(BACKEND_URL + URI + service.data._id + '/tip',tip).success(function(tip){
-                service.data.tips.push(tip)
+                service.data.tips.push(tip);
                 deffered.resolve()
             }).error(function(err){
                 deffered.reject();
@@ -104,8 +116,8 @@ angular.module('backend', [])
 
         service.updateTip = function($index,tip){
             var deffered = $q.defer();
-            $http.put(BACKEND_URL + URI + service.data._id + '/tip/'+$index,tip).success(function(tip){
-                service.data.tips[$index] = tip;
+            $http.put(BACKEND_URL + URI + service.data._id + '/tip/'+$index,tip).success(function(){
+                service.data.tips[$index] = tip.text;
                 deffered.resolve()
             }).error(function(err){
                 deffered.reject();
@@ -115,7 +127,7 @@ angular.module('backend', [])
 
         service.removeTip = function($index,tip){
             var deffered = $q.defer();
-            $http.delete(BACKEND_URL + URI + service.data._id + '/tip/'+tip._id).success(function(){
+            $http.delete(BACKEND_URL + URI + service.data._id + '/tip/'+$index).success(function(){
                 service.data.tips.splice($index,1);
                 deffered.resolve()
             }).error(function(err){
@@ -135,10 +147,21 @@ angular.module('backend', [])
             return deffered.promise;
         };
 
+        service.updateTest = function(index,test){
+            var deffered = $q.defer();
+            $http.put(BACKEND_URL + URI + service.data._id + '/test/'+test._id,test).success(function(test){
+                service.data.tests.splice(index,1,test)
+                deffered.resolve()
+            }).error(function(err){
+                deffered.reject(err);
+            });
+            return deffered.promise;
+        };
+
         service.removeTest = function($index,test){
             var deffered = $q.defer();
-            $http.delete(BACKEND_URL + URI + service.data._id + '/guide/'+test._id).success(function(){
-                service.data.guides.splice($index,1);
+            $http.delete(BACKEND_URL + URI + service.data._id + '/test/'+test._id).success(function(){
+                service.data.tests.splice($index,1);
                 deffered.resolve()
             }).error(function(err){
                 deffered.reject();
@@ -153,7 +176,7 @@ angular.module('backend', [])
                         service.data.guides.move(option.index,option.new);
                         break;
                     case 'tip':
-
+                        service.data.tips.move(option.index,option.new);
                         break;
                 }
             }).error(function(err){

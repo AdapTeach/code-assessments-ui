@@ -1,15 +1,17 @@
 <md-toolbar>
     <div class="md-toolbar-tools">
-        <h2 flex >
-            {{ assessment.title }}
-        </h2>
-        <md-button class="md-button md-button-raised md-theme-red" ng-click="assessment.delete()">
-            Delete
+        <input type="text" ng-model="assessment.title"  flex/>
+        <md-button class="md-button md-button-icon" ng-click="assessment.update()">
+            <i class="ion-upload"></i>
+        </md-button>
+        <md-button class="md-button md-button-icon" ng-click="assessment.delete()">
+            <i class="ion-trash-a"></i>
         </md-button>
     </div>
 </md-toolbar>
 <md-content layout="vertical" layout-fill>
-    <md-tabs ng-init="data.selectedIndex = 0" selected="data.selectedIndex"  center>
+
+    <md-tabs ng-init="data.selectedIndex = 0" selected="data.selectedIndex"  center >
         <md-tab label="Start"></md-tab>
         <md-tab label="Tests"></md-tab>
         <md-tab label="Tips" ></md-tab>

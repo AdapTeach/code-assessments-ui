@@ -1,13 +1,8 @@
-<md-toolbar>
-    <div class="md-toolbar-tools">
-        <span flex></span>
-        <md-button class="md-button md-button-raised md-theme-green" ng-click="assessment.update()">
-            Update
-        </md-button>
-    </div>
-</md-toolbar>
 <form name="assessDetails" layout-padding>
-    <textarea name="instruction" rows="5" ng-model="assessment.instructions" placeholder="description"></textarea>
+    <div>
+        <h3>Instructions</h3>
+        <textarea name="instruction" rows="5" ng-model="assessment.instructions" placeholder="description"></textarea>
+    </div>
     <div>
         <h3>Start Code</h3>
         <div ui-ace="app.AceConfig.java" ng-model="assessment.startCode"></div>

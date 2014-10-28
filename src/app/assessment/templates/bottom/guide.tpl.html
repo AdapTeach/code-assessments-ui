@@ -2,13 +2,12 @@
     <form name="guideCreation">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <span flex>new guide</span>
+                <md-text-float label="guide title..." flex type="text" ng-model="guide.title"></md-text-float>
                 <md-button class="md-button" ng-click="guide.save()">
                     Save
                 </md-button>
             </div>
         </md-toolbar>
-        <input type="text" ng-model="guide.title" style="width: 100%;" placeholder="title..."/>
         <div ui-ace="app.AceConfig.java" ng-model="guide.code"></div>
     </form>
 </md-bottom-sheet>
