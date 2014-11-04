@@ -1,17 +1,24 @@
 angular.module('assessment')
-    .controller('GuidesCtrl',function($atAssessment,$mdToast){
+    .controller('GuidesCtrl',function(atGuide,$mdToast){
 
         this.update = function(guide){
-            $atAssessment.updateGuide(guide).then(function(){
+            atGuide.save(guide._id,guide).then(function(){
                 $mdToast.show({
                     template : '<md-toast>guide updated</md-toast>'
                 })
             });
         };
 
-        this.remove = $atAssessment.removeGuide;
+        this.remove = function(id){
+            atGuide.destroy(id).then(function(){
+                $mdToast.show({
+                    template : '<md-toast>guide removed</md-toast>'
+                })
+            })
+        };
 
         this.move = function(from,to){
+            //todo change this !!!
             var options = {
                 new : to,
                 index : from,
@@ -20,27 +27,28 @@ angular.module('assessment')
             $atAssessment.moveChildren(options);
         };
     })
-    .controller('TipsCtrl',function($atAssessment,$mdToast){
+    .controller('TipsCtrl',function(atAssessment,$mdToast,$stateParams){
         this.update = function($index,tip){
             var myTip = {
                 text : tip
             };
-            $atAssessment.updateTip($index,myTip).then(function(){
+            atAssessment.get($stateParams.id).addTip($index,myTip).then(function(){
                 $mdToast.show({
                     template : '<md-toast>tip updated</md-toast>'
                 })
             })
         };
 
-        this.remove = $atAssessment.removeTip;
+        this.remove = function($index){
+            atAssessment.get($stateParams.id).removeTip($index).then(function(){
+                $mdToast.show({
+                    template : '<md-toast>tip updated</md-toast>'
+                })
+            })
+        };
 
         this.move = function(from,to){
-            var options = {
-                new : to,
-                index : from,
-                type : 'tip'
-            };
-            $atAssessment.moveChildren(options);
+            atAssessment.get($stateParams.id).moveTip();
         };
     })
     .controller('TestsCtrl',function($atAssessment,$mdDialog){
@@ -50,7 +58,7 @@ angular.module('assessment')
                 //targetEvent: $event,
                 locals : {
                     index : $index,
-                    test : test
+                    test : testId
                 },
                 controller : 'TestDialogCtrl as test'
             }).then(function(newTest){

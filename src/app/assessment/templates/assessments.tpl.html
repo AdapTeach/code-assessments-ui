@@ -13,7 +13,7 @@
                 <md-button ui-sref="assessment.creation" class="md-button md-button-colored">
                     Create
                 </md-button>
-                <md-button ng-repeat="assessment in app.assessments" ui-sref="assessment.details({ id : assessment._id })" class="md-button">
+                <md-button ng-repeat="assessment in list" ui-sref="assessment.details({ id : assessment._id })" class="md-button">
                     {{ assessment.title }}
                 </md-button>
             </section>

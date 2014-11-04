@@ -1,5 +1,6 @@
 angular.module('backend', [])
 //    .constant('BACKEND_URL', 'http://localhost:5010/')
+//    .constant('BACKEND_URL', 'http://codeassessments-charl.rhcloud.com/')
 
     .factory('$atAssessment', function (BACKEND_URL, $http, $q) {
 

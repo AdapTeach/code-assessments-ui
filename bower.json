@@ -6,7 +6,8 @@
         "angular": "1.3.*",
         "angular-ui-router" : "*",
         "angular-ui-ace": "*",
-        "angular-material" : "0.4.2-master-9e4b8ef",
+        "angular-material" : "*",
+        "angular-data" : "*",
         "ionicons" : "*",
         "ngRepeatReorder" : "0.1.1"
     },

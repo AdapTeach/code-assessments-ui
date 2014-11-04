@@ -7,20 +7,15 @@ angular.module('assessment', [
                 url : '/assessment',
                 abstract : true,
                 templateUrl : 'assessment/templates/assessments.tpl.html',
-                controller : 'AssessmentsCtrl as app',
+                controller : 'AssessmentsCtrl',
                 resolve : {
-                    assessments : function($atAssessment){
-                        return $atAssessment.fetchAll();
+                    list : function(atAssessment){
+                        return atAssessment.findAll();
                     }
                 }
             })
             .state('assessment.details',{
                 url : '/details/:id',
-                resolve : {
-                    assessment : function($atAssessment,$stateParams){
-                        return $atAssessment.fetchOne($stateParams.id);
-                    }
-                },
                 views : {
                     assess : {
                         templateUrl : 'assessment/templates/assessment.tpl.html',
@@ -38,10 +33,10 @@ angular.module('assessment', [
                 }
             });
     })
-    .controller('AssessmentsCtrl',function(assessments,AceConfig,$mdBottomSheet,$atAssessment){
-        this.assessments = $atAssessment.list;
-        this.AceConfig = AceConfig;
-        this.bottomSheet = function($event,type){
+    .controller('AssessmentsCtrl',function($scope,AceConfig,$mdBottomSheet,atAssessment){
+        atAssessment.bindAll($scope,'list');
+        $scope.AceConfig = AceConfig;
+        $scope.bottomSheet = function($event,type){
             var option = {
                 targetEvent : $event
             };
@@ -62,40 +57,41 @@ angular.module('assessment', [
             $mdBottomSheet.show(option);
         };
     })
-    .controller('AssessmentCtrl',function(assessment,$atAssessment,$mdToast,$state){
-        angular.extend(this,assessment);
-
-        this.delete = function(){
-            $atAssessment.delete(this).then(function(){
+    .controller('AssessmentCtrl',function($stateParams,atAssessment,$mdToast,$state){
+        this.item = atAssessment.get($stateParams.id);
+        this.destroy = function(){
+            atAssessment.destroy(this.item._id).then(function(){
                 $mdToast.show({
                     template : '<md-toast>Assessment removed</md-toast>'
                 });
                 $state.go('assessment.creation');
+            }).catch(function(err){
+                console.log(err);
             });
         };
 
         this.update = function(){
-            var options = {
-                _id : this._id,
-                startCode : this.startCode,
-                title : this.title,
-                instructions : this.instructions
-            };
-            $atAssessment.update(options).then(function(){
-                angular.extend(this,$atAssessment.data);
+            atAssessment.save(this.item._id).then(function(){
                 $mdToast.show({
                     template : '<md-toast>Assessment updated</md-toast>'
                 })
+            }).catch(function(err){
+                console.log(err);
             });
         };
     })
-    .controller('AssessmentCreationCtrl',function($atAssessment,$state){
+    .controller('AssessmentCreationCtrl',function(DS,atAssessment,$state,$mdToast){
         this.create = function(){
-            $atAssessment.create(this).then(function(assessId){
+            var temp = angular.copy(this);
+            delete temp.create;
+            atAssessment.create(temp).then(function(assess){
+                console.log(assess)
                 $mdToast.show({
                     template : '<md-toast>Assessment created</md-toast>'
                 });
-                $state.go('assessment.details',{ id : assessId });
+                $state.go('assessment.details',{ id : assess._id });
+            }).catch(function(err){
+                console.log(err);
             });
         };
     });

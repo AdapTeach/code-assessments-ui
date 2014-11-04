@@ -6,10 +6,10 @@ angular.module('app', [
     'ngMaterial',
     'ui.router',
     'ui.ace',
+    'angular-data.DS',
     'assessment',
     'backend'
 ])
-    .constant('BACKEND_URL', 'http://127.0.0.1:5011')
     .factory('AceConfig', function () {
         var AceConfig = {};
 

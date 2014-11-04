@@ -1,8 +1,8 @@
 angular.module('assessment')
-    .controller('TestDialogCtrl',function(test,index,$atAssessment,$mdDialog,$mdToast){
-        angular.extend(this,test);
+    .controller('TestDialogCtrl',function(testId,index,atTest,$mdDialog,$mdToast){
+        atTest.bindOne(this,'data',testId);
         this.update = function(){
-            $atAssessment.updateTest(index,this).then(function(test){
+            atTest.save(testId,this.data).then(function(test){
                 $mdToast.show({
                     template : '<md-toast>test updated</md-toast>'
                 });
@@ -10,7 +10,7 @@ angular.module('assessment')
             });
         };
         this.remove = function(){
-            $atAssessment.removeTest(index,this).then(function(){
+            atTest.destroy(this._id).then(function(){
                 $mdToast.show({
                     template : '<md-toast>test removed</md-toast>'
                 });
