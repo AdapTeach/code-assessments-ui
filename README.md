@@ -1,4 +1,4 @@
-code-grader-back-office
+code-assessments-ui
 =======================
 
-back office to manage assessment in AdapTeach
+UI for managing assessments
