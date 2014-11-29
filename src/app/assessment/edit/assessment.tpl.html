@@ -1,0 +1,36 @@
+<md-content layout="vertical" layout-fill md-theme="teal">
+
+  <md-tabs ng-init="tabs.selectedIndex = 0" selected="tabs.selectedIndex" center >
+    <md-tab label="Start"></md-tab>
+    <md-tab label="Tests" ng-disabled="!assessment.exist"></md-tab>
+    <md-tab label="Tips" ng-disabled="!assessment.exist"></md-tab>
+    <md-tab label="Guides" ng-disabled="!assessment.exist"></md-tab>
+  </md-tabs>
+  <div class="tab-content-container" layout layout-fill ng-switch on="tabs.selectedIndex">
+    <div class="animate-switch tab1"
+         ng-switch-when="0"
+         md-swipe-left="next()"
+         md-swipe-right="previous()">
+      <ng-include src="'app/assessment/edit/assessment-edit.tpl.html'"></ng-include>
+    </div>
+    <div class="animate-switch tab2"
+         ng-switch-when="1"
+         md-swipe-left="next()"
+         md-swipe-right="previous()">
+      <ng-include src="'app/assessment/test/list.tpl.html'"></ng-include>
+    </div>
+    <div class="animate-switch tab3"
+         ng-switch-when="2"
+         md-swipe-left="next()"
+         md-swipe-right="previous()">
+      <ng-include src="'app/assessment/tip/list.tpl.html'"></ng-include>
+    </div>
+    <div class="animate-switch tab4"
+         ng-switch-when="3"
+         md-swipe-left="next()"
+         md-swipe-right="previous()">
+      <ng-include src="'app/assessment/guide/list.tpl.html'"></ng-include>
+
+    </div>
+  </div>
+</md-content>

@@ -11,5 +11,6 @@
 	"trailing": true,
 	"quotmark": "single",
 	"strict": true,
-	"globals"   : {}
+	"globals"   : {},
+  	"predef": ["angular"]
 }

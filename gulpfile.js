@@ -1,210 +1,147 @@
-'use strict';
+var gulp = require('gulp'),
+    sass = require('gulp-sass'),
+    concat = require('gulp-concat'),
+    jshint = require('gulp-jshint'),
+    runSequence = require('run-sequence'),
+    del = require('del'),
+    refresh = require('gulp-livereload'),
+    lrserver = require('tiny-lr')(),
+    express = require('express'),
+    livereload = require('connect-livereload'),
+    copy = require('gulp-copy'),
+    uglify = require('gulp-uglify'),
+    usemin = require('gulp-usemin'),
+    annotate = require('gulp-ng-annotate'),
+    path = require('path'),
+    minifyCss = require('gulp-minify-css'),
+    minifyHtml = require('gulp-minify-html'),
+    rev = require('gulp-rev'),
+    sourcemaps = require('gulp-sourcemaps'),
+    templateCache = require('gulp-angular-templatecache')
+    config = require('./config/build.config'),
+    testConfig = require('./config/test.config'),
+    deployConfig = require('./config/deploy.config');
 
-var config = require('./build/build.config.js');
-var karmaConfig = require('./build/karma.config.js');
-var protractorConfig = require('./build/protractor.config.js');
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
-var runSequence = require('run-sequence');
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
-var pkg = require('./package');
-var karma = require('karma').server;
-var del = require('del');
-var _ = require('lodash');
-/* jshint camelcase:false*/
-var webdriverStandalone = require('gulp-protractor').webdriver_standalone;
-var webdriverUpdate = require('gulp-protractor').webdriver_update;
+var livereloadport = 35729,
+    serverport = 5000;
 
-//update webdriver if necessary, this task will be used by e2e task
-gulp.task('webdriver:update', webdriverUpdate);
 
-// run unit tests and watch files
-gulp.task('tdd', function(cb) {
-  karma.start(_.assign({}, karmaConfig, {
-    singleRun: false,
-    action: 'watch',
-    browsers: ['PhantomJS']
-  }), cb);
+// DEV SERVER
+var devServer = express();
+devServer.use(livereload({port: config.livereloadport}));
+devServer.use(express.static(config.base));
+devServer.all('/*', function (req, res) {
+    res.sendFile('index.html', {root: config.base});
 });
 
-// run unit tests with travis CI
-gulp.task('travis', ['build'], function(cb) {
-  karma.start(_.assign({}, karmaConfig, {
-    singleRun: true,
-    browsers: ['PhantomJS']
-  }), cb);
+
+gulp.task('default', ['dev'], function () {
 });
 
-// optimize images and put them in the dist folder
-gulp.task('images', function() {
-  return gulp.src(config.images)
-    .pipe($.imagemin({
-      progressive: true,
-      interlaced: true
-    }))
-    .pipe(gulp.dest(config.dist + '/assets/images'))
-    .pipe($.size({
-      title: 'images'
-    }));
+gulp.task('dev', [
+    'buildDev',
+    'startDevServer',
+    'watchSource'
+], function () {
 });
 
-//generate angular templates using html2js
-gulp.task('templates', function() {
-  return gulp.src(config.tpl)
-    .pipe($.changed(config.tmp))
-    .pipe($.html2js({
-      outputModuleName: 'templates',
-      base: 'client',
-      useStrict: true
-    }))
-    .pipe($.concat('templates.js'))
-    .pipe(gulp.dest(config.tmp))
-    .pipe($.size({
-      title: 'templates'
-    }));
+gulp.task('buildDev', [
+    'buildJs',
+    'buildStyle',
+    'cacheTemplates'
+], function () {
 });
 
-//generate css files from scss sources
-gulp.task('sass', function() {
-  return gulp.src(config.mainScss)
-    .pipe($.rubySass())
-    .on('error', function(err) {
-      console.log(err.message);
-    })
-    .pipe(gulp.dest(config.tmp))
-    .pipe($.size({
-      title: 'sass'
-    }));
+gulp.task('buildJs', function () {
+    gulp.src(config.js)
+        .pipe(sourcemaps.init())
+        .pipe(concat(config.buildName))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(config.build))
+        .pipe(refresh(lrserver));
 });
 
-//build files for creating a dist release
-gulp.task('build:dist', ['clean'], function(cb) {
-  runSequence(['jshint', 'build', 'copy', 'copy:assets', 'images', 'test:unit'], 'html', cb);
+gulp.task('buildStyle', function () {
+    gulp.src(config.mainScss)
+        .pipe(sass())
+        .pipe(gulp.dest(config.build));
+    gulp.src(config.index)
+        .pipe(refresh(lrserver));
 });
 
-//build files for development
-gulp.task('build', ['clean'], function(cb) {
-  runSequence(['sass', 'templates'], cb);
+gulp.task('cacheTemplates', function () {
+    gulp.src(config.tpl)
+        .pipe(templateCache({module: config.module}))
+        .pipe(gulp.dest(config.build))
+        .pipe(refresh(lrserver));
 });
 
-//generate a minified css files, 2 js file, change theirs name to be unique, and generate sourcemaps
-gulp.task('html', function() {
-  var assets = $.useref.assets({
-    searchPath: '{build,client}'
-  });
-
-  return gulp.src(config.index)
-    .pipe(assets)
-    .pipe($.sourcemaps.init())
-    .pipe($.if('**/*main.js', $.ngAnnotate()))
-    .pipe($.if('*.js', $.uglify({
-      mangle: false,
-    })))
-    .pipe($.if('*.css', $.csso()))
-    .pipe($.if(['**/*main.js', '**/*main.css'], $.header(config.banner, {
-      pkg: pkg
-    })))
-    .pipe($.rev())
-    .pipe(assets.restore())
-    .pipe($.useref())
-    .pipe($.revReplace())
-    .pipe($.if('*.html', $.minifyHtml({
-      empty: true
-    })))
-    .pipe($.sourcemaps.write())
-    .pipe(gulp.dest(config.dist))
-    .pipe($.size({
-      title: 'html'
-    }));
+gulp.task('startDevServer', function () {
+    devServer.listen(config.port);
+    lrserver.listen(config.livereloadport);
 });
 
-//copy assets in dist folder
-gulp.task('copy:assets', function() {
-  return gulp.src(config.assets, {
-      dot: true
-    }).pipe(gulp.dest(config.dist + '/assets'))
-    .pipe($.size({
-      title: 'copy:assets'
-    }));
+gulp.task('watchSource', function () {
+    gulp.watch(config.js, ['buildJs', 'lint']);
+    gulp.watch(config.scss, ['buildStyle']);
+    gulp.watch(config.index, ['reloadIndex']);
+    gulp.watch(config.tpl, ['cacheTemplates']);
 });
 
-//copy assets in dist folder
-gulp.task('copy', function() {
-  return gulp.src([
-      config.base + '/*',
-      '!' + config.base + '/*.html',
-      '!' + config.base + '/src',
-      '!' + config.base + '/test'
-    ]).pipe(gulp.dest(config.dist))
-    .pipe($.size({
-      title: 'copy'
-    }));
+
+gulp.task('reloadIndex', function () {
+    gulp.src(config.index)
+        .pipe(refresh(lrserver));
 });
 
-//clean temporary directories
-gulp.task('clean', del.bind(null, [config.dist, config.tmp]));
-
-//lint files
-gulp.task('jshint', function() {
-  return gulp.src(config.js)
-    .pipe(reload({
-      stream: true,
-      once: true
-    }))
-    .pipe($.jshint())
-    .pipe($.jshint.reporter('jshint-stylish'))
-    .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
+gulp.task('lint', function () {
+    gulp.src(config.js)
+        .pipe(jshint())
+        .pipe(jshint.reporter('jshint-stylish'));
 });
 
-/* tasks supposed to be public */
+
+/////////////////////////////////////
+/////////////// PROD ///////////////
+///////////////////////////////////
 
 
-//default task
-gulp.task('default', ['serve']); //
-
-//run unit tests and exit
-gulp.task('test:unit', ['build'], function(cb) {
-  karma.start(_.assign({}, karmaConfig, {
-    singleRun: true
-  }), cb);
+gulp.task('prod', [
+    'dist',
+    'startProdServer'
+], function () {
 });
 
-// Run e2e tests using protractor, make sure serve task is running.
-gulp.task('test:e2e', ['webdriver:update'], function() {
-  return gulp.src(protractorConfig.config.specs)
-    .pipe($.protractor.protractor({
-      configFile: 'build/protractor.config.js'
-    }))
-    .on('error', function(e) {
-      throw e;
+gulp.task('dist', function () {
+        runSequence(
+            'cleanDistFolder',
+            'buildDev',
+            'buildDist'
+        );
+    }
+);
+
+gulp.task('cleanDistFolder', function (cb) {
+    del(config.dist, cb);
+});
+
+gulp.task('buildDist', function () {
+    gulp.src(config.index)
+        .pipe(usemin({
+            css: [minifyCss()],
+            html: [minifyHtml({empty: true})],
+            js: [annotate(), uglify(), rev()]
+        }))
+        .pipe(gulp.dest(config.dist));
+    gulp.src(config.images)
+        .pipe(copy(config.dist, {prefix: 1}));
+});
+
+gulp.task('startProdServer', function () {
+    var server = express();
+    server.use(express.static(config.dist));
+    server.all('/*', function (req, res) {
+        res.sendFile('index.html', {root: config.dist});
     });
-});
-
-//run the server,  watch for file changes and redo tests.
-gulp.task('serve:tdd', function(cb) {
-  runSequence(['serve', 'tdd']);
-});
-
-//run the server after having built generated files, and watch for changes
-gulp.task('serve', ['build'], function() {
-  browserSync({
-    notify: false,
-    logPrefix: pkg.name,
-    server: ['build', 'client']
-  });
-
-  gulp.watch(config.html, reload);
-  gulp.watch(config.scss, ['sass', reload]);
-  gulp.watch(config.js, ['jshint']);
-  gulp.watch(config.tpl, ['templates', reload]);
-  gulp.watch(config.assets, reload);
-});
-
-//run the app packed in the dist folder
-gulp.task('serve:dist', ['build:dist'], function() {
-  browserSync({
-    notify: false,
-    server: [config.dist]
-  });
+    server.listen(config.port);
 });

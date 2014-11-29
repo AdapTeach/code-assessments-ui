@@ -1,0 +1,15 @@
+<md-toolbar md-theme="e">
+  <div class="md-toolbar-tools">
+    <span>My Super trainer app</span>
+
+    <span flex></span>
+
+    <persona-login ng-if="!header.me">
+      <md-button class="md-primary" md-theme="deep-orange">Login</md-button>
+    </persona-login>
+
+    <persona-logout ng-if="header.me">
+      <md-button class="md-primary md-raised" md-theme="red">Logout</md-button>
+    </persona-logout>
+  </div>
+</md-toolbar>
