@@ -1,17 +1,17 @@
 <md-dialog style="width:100%;">
-  <md-toolbar>
-    <div class="md-toolbar-tools">
-      <input type="text" ng-model="test.title" flex placeholder="title..."/>
-      <md-button class="md-button md-button-icon" ng-click="test.update()">
-        <i class="ion-upload"></i>
-      </md-button>
-      <md-button class="md-button md-button-icon" ng-click="test.remove()">
-        <i class="ion-trash-a"></i>
-      </md-button>
-    </div>
-  </md-toolbar>
-  <md-content class="dialog-content">
-    <div ui-ace="app.AceConfig.java" ng-model="test.code"></div>
-    <textarea rows="5" ng-model="test.expectations" placeholder="expectations..."></textarea>
-  </md-content>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <input type="text" ng-model="test.title" flex placeholder="title..."/>
+            <md-button class="md-button md-button-icon" ng-click="test.update()">
+                <i class="ion-upload"></i>
+            </md-button>
+            <md-button class="md-button md-button-icon" ng-click="test.remove()">
+                <i class="ion-trash-a"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content class="dialog-content">
+        <div ui-ace="app.AceConfig.java" ng-model="test.code"></div>
+        <textarea rows="5" ng-model="test.expectations" placeholder="expectations..."></textarea>
+    </md-content>
 </md-dialog>

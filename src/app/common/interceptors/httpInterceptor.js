@@ -10,7 +10,7 @@ function httpInterceptor($q, $log) {
             return $q.reject(rejection);
         },
         response: function (response) {
-            $log.debug('response: ', response);
+            //$log.debug('response: ', response);
             return response;
         },
         responseError: function (rejection) {

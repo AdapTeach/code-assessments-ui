@@ -5,16 +5,25 @@
  * @description config block
  */
 function assessmentConfig($stateProvider) {
-    $stateProvider.state('assessment.edit', {
-        url: '/:id',
-        resolve: {},
-        views: {
-            assess: {
-                templateUrl: 'app/assessment/edit/assessment.tpl.html',
-                controller: 'AssessmentCtrl as assessment'
+    $stateProvider
+        .state('assessment.edit', {
+            url: '/:id',
+            resolve: {
+                assessment : function(Restangular,$stateParams){
+                    if($stateParams.id) {
+                        return Restangular.one('assessment', $stateParams.id).get();
+                    }else{
+                        return {};
+                    }
+                }
+            },
+            views: {
+                assess: {
+                    templateUrl: 'app/assessment/edit/assessment.tpl.html',
+                    controller: 'AssessmentCtrl as assessment'
+                }
             }
-        }
-    });
+        });
 }
 
 
@@ -22,10 +31,12 @@ function assessmentConfig($stateProvider) {
  * @name  Assessment
  * @description Controller
  */
-function AssessmentCtrl($stateParams, Restangular, $mdToast, $state) {
+function AssessmentCtrl($stateParams, Restangular, $mdToast, $state, assessment, assessmentsList) {
     var self = this;
 
-    this.data = Restangular.one('assessment', $stateParams.id).get().$object;
+    assessmentsList.current = assessment;
+
+    this.data = assessmentsList;
 
     this.exist = $stateParams.id;
 
@@ -44,15 +55,17 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast, $state) {
         if (self.data._id) {
             self.data
                 .put()
-                .then(function () {
+                .then(function (updatedAssessment) {
+                    //todo update the list
                     $mdToast.show({
                         template: '<md-toast>Assessment updated</md-toast>'
                     });
                 });
         } else {
-            self.data
-                .save()
-                .then(function (assessment) {
+            Restangular.all('assessment')
+                .post(self.data)
+                .then(function (createdAssessment) {
+                    assessmentsList.data.push(createdAssessment);
                     $mdToast.show({
                         template: '<md-toast>Assessment created</md-toast>'
                     });

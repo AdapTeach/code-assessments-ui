@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @name  config
+ * @name  assessmentsConfig
  * @description config block
  */
 function assessmentsConfig($stateProvider) {
@@ -39,15 +39,26 @@ var ACE = {
     }
 };
 
+/**
+ * @name  assessmentsList
+ * @description collection of assessments
+ */
+function assessmentsList() {
+    return {
+        data : []
+    };
+}
+
 
 /**
- * @name  Assessments
+ * @name  AssessmentsCtrl
  * @description Controller
  */
-function AssessmentsCtrl(Restangular,ACE, $mdBottomSheet, list) {
+function AssessmentsCtrl(Restangular,ACE, $mdBottomSheet, list, assessmentsList) {
     console.log(Restangular.all('assessment').getList())
     var self = this;
-    self.list = list;
+    assessmentsList.data = list;
+    self.list = assessmentsList.data;
 
     this.AceConfig = ACE;
     this.bottomSheet = function ($event, type) {
@@ -81,4 +92,5 @@ angular.module('assessment', [
 ])
     .constant('ACE', ACE)
     .config(assessmentsConfig)
-    .controller('AssessmentsListCtrl', AssessmentsCtrl);
+    .controller('AssessmentsListCtrl', AssessmentsCtrl)
+    .factory('assessmentsList',assessmentsList);

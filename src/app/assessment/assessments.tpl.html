@@ -1,26 +1,21 @@
-<section layout="horizontal" layout-fill>
-  <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-theme="teal" component-id="left"
-              is-locked-open="$media('md')">
-    <md-toolbar>
-      <div class="md-toolbar-tools" layout="horizontal">
-        <h1 flex>Assessments list</h1>
-        <md-button ng-click="close()" class="md-button-colored" hide-md>
-          X
-        </md-button>
-      </div>
-    </md-toolbar>
-    <md-content class="md-content-padding">
-      <section layout="vertical" class="btn-list">
-        <md-button ui-sref="assessment.edit({ id : '' })" class="md-button md-button-colored">
-          Create
-        </md-button>
-        <md-button ng-repeat="assessment in app.list" ui-sref="assessment.edit({ id : assessment._id })" class="md-button">
-          {{ assessment.title }}
-        </md-button>
-      </section>
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-theme="teal" md-component-id="left" >
+        <md-toolbar>
+            <div class="md-toolbar-tools md-theme-teal" layout="horizontal">
+                <h1 flex>Assessments </h1>
+                <md-button ui-sref="assessment.edit({ id : '' })" aria-label="edit button">
+                    <i class="ion-plus"></i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-content class="md-content-padding">
+            <section layout="column" class="btn-list">
+                <md-button ng-repeat="assessment in app.list" aria-label="assessment button" ui-sref="assessment.edit({ id : assessment._id })"
+                           class="md-button">
+                    {{ assessment.title }}
+                </md-button>
+            </section>
 
-    </md-content>
+        </md-content>
 
-  </md-sidenav>
-  <section ui-view="assess" layout-fill></section>
-</section>
+    </md-sidenav>
+    <section ui-view="assess" layout-fill></section>
