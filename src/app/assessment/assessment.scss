@@ -3,19 +3,15 @@
   font-size: 16px !important;
 }
 
-.btn-list {
-  md-button {
-    width: 100%;
+.dialog-edit{
+  .ion{
+    color : white;
   }
 }
 
-.dialog-result {
-  width: 100%;
-}
-
-@media all and (min-width: 800px) {
-  .dialog-result {
-    width: 80%;
+.btn-list {
+  md-button {
+    width: 100%;
   }
 }
 

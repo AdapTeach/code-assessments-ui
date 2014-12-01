@@ -6,8 +6,9 @@
  */
 function assessmentConfig($stateProvider) {
     $stateProvider
-        .state('assessment.edit', {
+        .state('assessment.detail', {
             url: '/:id',
+            abstract: true,
             resolve: {
                 assessment : function(Restangular,$stateParams){
                     if($stateParams.id) {
@@ -19,7 +20,7 @@ function assessmentConfig($stateProvider) {
             },
             views: {
                 assess: {
-                    templateUrl: 'app/assessment/edit/assessment.tpl.html',
+                    templateUrl: 'app/assessment/detail/assessment.tpl.html',
                     controller: 'AssessmentCtrl as assessment'
                 }
             }
@@ -36,9 +37,9 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast, $state, assessment,
 
     assessmentsList.current = assessment;
 
-    this.data = assessmentsList;
+    this.data = assessment;
 
-    this.exist = $stateParams.id;
+    this.exist = !!$stateParams.id;
 
     this.destroy = function () {
         self.data
@@ -75,6 +76,12 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast, $state, assessment,
     };
 }
 
-angular.module('assessment.edit', [])
+angular.module('assessment.detail', [
+    'assessment.detail.base',
+    'assessment.detail.guides',
+    'assessment.detail.tips',
+    'assessment.detail.tests',
+    'assessment.detail.compilation'
+])
     .config(assessmentConfig)
     .controller('AssessmentCtrl', AssessmentCtrl);

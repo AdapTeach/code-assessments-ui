@@ -22,7 +22,7 @@ function homeConfig($stateProvider) {
  * @description Controller
  */
 function HomeCtrl() {
-  /*jshint validthis:true */
+
 }
 
 angular.module('home', [])

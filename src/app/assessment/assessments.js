@@ -7,7 +7,6 @@
 function assessmentsConfig($stateProvider) {
     $stateProvider.state('assessment', {
         url: '/assessment',
-        abstract : true,
         resolve: {
             list: function (Restangular) {
                 return Restangular.all('assessment').getList();
@@ -54,41 +53,15 @@ function assessmentsList() {
  * @name  AssessmentsCtrl
  * @description Controller
  */
-function AssessmentsCtrl(Restangular,ACE, $mdBottomSheet, list, assessmentsList) {
-    console.log(Restangular.all('assessment').getList())
+function AssessmentsCtrl(ACE, list, assessmentsList) {
     var self = this;
     assessmentsList.data = list;
     self.list = assessmentsList.data;
-
     this.AceConfig = ACE;
-    this.bottomSheet = function ($event, type) {
-        var option = {
-            targetEvent: $event
-        };
-        switch (type) {
-            case 'tip':
-                option.templateUrl = 'app/assessment/tip/bottom.tpl.html';
-                option.controller = 'TipBottomCtrl as tip';
-                break;
-            case 'guide':
-                option.templateUrl = 'app/assessment/guide/bottom.tpl.html';
-                option.controller = 'GuideBottomCtrl as guide';
-                break;
-            case 'test':
-                option.templateUrl = 'app/assessment/test/bottom.tpl.html';
-                option.controller = 'TestBottomCtrl as test';
-                break;
-        }
-        $mdBottomSheet.show(option);
-    };
 }
 
 angular.module('assessment', [
-    'assessment.edit',
-    'assessment.guides',
-    'assessment.tips',
-    'assessment.tests',
-    'assessment.compilation'
+    'assessment.detail'
 ])
     .constant('ACE', ACE)
     .config(assessmentsConfig)

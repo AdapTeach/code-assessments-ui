@@ -43,9 +43,9 @@ angular.module('app', [
     'ngMaterial',
     'ui.router',
     'ui.ace',
+    'ui.route',
     'restangular',
     'angular-persona-jwt',
-    'header',
     'home',
     'assessment',
     'common'

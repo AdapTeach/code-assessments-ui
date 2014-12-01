@@ -51,6 +51,6 @@ function TipBottomCtrl(atAssessment, $mdBottomSheet, $mdToast) {
     };
 }
 
-angular.module('assessment.tips',[])
+angular.module('assessment.detail.tips',[])
     .controller('TipListCtrl', TipListCtrl)
     .controller('TipBottomCtrl', TipBottomCtrl);

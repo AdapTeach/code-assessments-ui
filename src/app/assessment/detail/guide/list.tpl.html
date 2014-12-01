@@ -2,7 +2,7 @@
     <div class="md-toolbar-tools">
         <span flex></span>
         <md-button class="md-button md-button-colored" ng-click="guides.dialog($event)">
-            Add a guide
+            New guide
         </md-button>
     </div>
 </md-toolbar>
@@ -11,18 +11,18 @@
         <md-toolbar md-theme="e">
             <div class="md-toolbar-tools">
                 <p flex>{{ guide.title }}</p>
-                <md-button class="md-button md-button-icon" ng-click="guides.dialog($event,guide._id)">
-                    <i class="ion-edit ion-2x"></i>
+                <md-button class="md-button md-button-icon" ng-click="guides.dialog($event,guide,$index)">
+                    <i class="ion-edit ion-2x ion"></i>
                 </md-button>
                 <md-button class="md-button md-button-icon" ng-click="guides.remove($event,guide._id)">
-                    <i class="ion-trash-a ion-2x"></i>
+                    <i class="ion-trash-a ion-2x ion"></i>
                 </md-button>
                 <md-button class="md-button md-button-icon" ng-click="guides.move($index,$index-1,guide._id)" ng-disabled="$index == 0">
-                    <i class="ion-arrow-up-a ion-2x"></i>
+                    <i class="ion-arrow-up-a ion-2x ion"></i>
                 </md-button>
                 <md-button class="md-button md-button-icon" ng-click="guides.move($index,$index+1,guide._id)"
                            ng-disabled="guides.list.length == $index+1">
-                    <i class="ion-arrow-down-a ion-2x"></i>
+                    <i class="ion-arrow-down-a ion-2x ion"></i>
                 </md-button>
             </div>
         </md-toolbar>

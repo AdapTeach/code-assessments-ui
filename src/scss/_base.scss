@@ -18,6 +18,9 @@ html {
   @include font-size($base-root-size);
   line-height: 1.5;
 }
+body{
+  overflow-y: hidden;
+}
 ::-moz-selection {
 
   @include selection();

@@ -1,12 +1,21 @@
 <section layout="column" md-theme="teal">
 
     <md-tabs ng-init="tabs.selectedIndex = 0" center>
-        <md-tab label="Start"></md-tab>
-        <md-tab label="Tests" ng-disabled="!assessment.exist"></md-tab>
-        <md-tab label="Tips" ng-disabled="!assessment.exist"></md-tab>
-        <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.edit.guides">
+        <md-tab ui-sref="assessment.detail.base">
+            Base
+        </md-tab>
+        <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.detail.tests">
+            Test
+        </md-tab>
+        <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.detail.compilationunit">
+            Compilation unit
+        </md-tab>
+        <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.detail.guides" >
             Guide
         </md-tab>
+        <!--<md-tab ng-disabled="!assessment.exist">-->
+            <!--Tips-->
+        <!--</md-tab>-->
     </md-tabs>
     <!--<div class="tab-content-container" layout layout-fill ng-switch on="tabs.selectedIndex">-->
         <!--<div class="animate-switch tab1"-->

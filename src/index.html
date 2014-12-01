@@ -17,12 +17,13 @@
     <!-- endbuild -->
 </head>
 
-<body layout-fill style="overflow-y: hidden;">
+<body>
 <md-content layout-fill>
     <main-header></main-header>
-    <section ui-view="main" layout="vertical" layout-fill>
+    <section ui-view="main" layout="column" layout-fill>
 
     </section>
+    <navigation></navigation>
 </md-content>
 
 <script src="https://login.persona.org/include.js"></script>
@@ -36,6 +37,7 @@
 <script src="vendor/angular-animate/angular-animate.js"></script>
 <script src="vendor/angular-aria/angular-aria.js"></script>
 <script src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="vendor/angular-ui-utils/route.js"></script>
 <script src="vendor/angular-ui-ace/ui-ace.js"></script>
 <script src="vendor/angular-material/angular-material.js"></script>
 <script src="vendor/restangular/dist/restangular.js"></script>

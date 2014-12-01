@@ -1,0 +1,23 @@
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <span flex></span>
+        <md-button class="md-button md-button-colored" ng-click="compilationUnits.dialog($event)">
+            New compilation unit
+        </md-button>
+    </div>
+</md-toolbar>
+<md-list>
+    <md-item ng-repeat="compilationUnit in compilationUnits.list">
+        <md-toolbar md-theme="e">
+            <div class="md-toolbar-tools">
+                <p flex>{{ compilationUnit.name }}</p>
+                <md-button class="md-button md-button-icon" aria-label="edit compilationunit" ng-click="compilationUnits.dialog($event,compilationUnit,$index)">
+                    <i class="ion-edit ion-2x"></i>
+                </md-button>
+                <md-button class="md-button md-button-icon" aria-label="remove compilationunit" ng-click="compilationUnits.remove($event,compilationUnit._id)">
+                    <i class="ion-trash-a ion-2x"></i>
+                </md-button>
+            </div>
+        </md-toolbar>
+    </md-item>
+</md-list>

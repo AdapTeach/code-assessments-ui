@@ -7,11 +7,10 @@
 
 function guideConfig($stateProvider){
     $stateProvider
-        .state('assessment.edit.guides',{
+        .state('assessment.detail.guides',{
             url: '/guides',
             resolve: {
-              guideList: function(Restangular,$stateParams){
-                  console.log($stateParams)
+              list: function(Restangular,$stateParams){
                   return Restangular
                       .one('assessment', $stateParams.id)
                       .getList('guide');
@@ -19,7 +18,7 @@ function guideConfig($stateProvider){
             },
             views: {
                 assessmentTab : {
-                    templateUrl: 'app/assessment/edit/guide/list.tpl.html',
+                    templateUrl: 'app/assessment/detail/guide/list.tpl.html',
                     controller: 'GuideListCtrl as guides'
                 }
             }
@@ -31,30 +30,20 @@ function guideConfig($stateProvider){
  * @name  GuideListCtrl
  * @description Controller of the guide list in the tabs
  */
-function GuideListCtrl($mdToast, guideList, $mdDialog, Restangular, $stateParams) {
+function GuideListCtrl($mdToast, list, $mdDialog, Restangular, $stateParams) {
 
     var self = this;
 
-    this.list = guideList;
+    this.list = list;
 
-    this.dialog = function(event,guideId){
+    this.dialog = function(event,guide){
         $mdDialog
             .show({
-                templateUrl: 'app/assessment/edit/guide/dialog.tpl.html',
+                templateUrl: 'app/assessment/detail/guide/dialog.tpl.html',
                 controller: 'GuideCtrl as guide',
                 targetEvent : event,
-                resolve: {
-                    data: function(Restangular, $stateParams){
-                        if(guideId){
-                            return Restangular
-                                .one('assessment', $stateParams.id)
-                                .one('guide', guideId)
-                                .get()
-                        }else{
-                            return{};
-                        }
-
-                    }
+                locals: {
+                    data:  guide || {}
                 }
             })
             .then(function(response){
@@ -103,7 +92,7 @@ function GuideListCtrl($mdToast, guideList, $mdDialog, Restangular, $stateParams
 function GuideCtrl(data,$stateParams,Restangular,$mdDialog) {
     var self = this;
 
-    this.data = data;
+    this.data = Restangular.copy(data);
 
     this.save = function(){
         if (self.data._id) {
@@ -134,7 +123,7 @@ function GuideCtrl(data,$stateParams,Restangular,$mdDialog) {
     };
 }
 
-angular.module('assessment.guides',[])
+angular.module('assessment.detail.guides',[])
     .config(guideConfig)
     .controller('GuideListCtrl', GuideListCtrl)
     .controller('GuideCtrl', GuideCtrl);
