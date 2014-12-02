@@ -55,7 +55,6 @@ function CompilationUnitListCtrl($mdDialog, list, Restangular, $stateParams, $md
                         template: '<md-toast>Compilation-unit created !</md-toast>'
                     })
                 } else {
-                    //todo update the list
                     self.list[index] = response.data;
                     $mdToast.show({
                         template: '<md-toast>Compilation-unit updated !</md-toast>'
@@ -65,7 +64,7 @@ function CompilationUnitListCtrl($mdDialog, list, Restangular, $stateParams, $md
             })
     };
 
-    this.remove = function(event, cuId){
+    this.remove = function(event, cuId, index){
         var confirm = $mdDialog
             .confirm()
             .title('Confirm suppression ?')
@@ -81,7 +80,7 @@ function CompilationUnitListCtrl($mdDialog, list, Restangular, $stateParams, $md
                 .remove()
             )
             .then(function(){
-                //todo remove from the local list
+                self.list.splice(index,1);
                 $mdToast.show({
                     template: '<md-toast>compilation unit removed successfully</md-toast>'
                 })

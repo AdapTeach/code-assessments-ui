@@ -32,7 +32,7 @@ function assessmentConfig($stateProvider) {
  * @name  Assessment
  * @description Controller
  */
-function AssessmentCtrl($stateParams, Restangular, $mdToast, $state, assessment, assessmentsList) {
+function AssessmentCtrl($stateParams, Restangular, $mdToast,$mdBottomSheet, $state, assessment, assessmentsList) {
     var self = this;
 
     assessmentsList.current = assessment;
@@ -41,38 +41,72 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast, $state, assessment,
 
     this.exist = !!$stateParams.id;
 
-    this.destroy = function () {
-        self.data
-            .remove()
-            .then(function () {
+    this.bottom = function(){
+        $mdBottomSheet.show({
+            templateUrl: 'app/assessment/detail/bottom.tpl.html',
+            controller: 'AssessmentBottomCtrl',
+            controllerAs: 'assessment',
+            locals: {
+                assessment: assessment
+            }
+        }).then(function(response){
+            if(response.type == 'update'){
                 $mdToast.show({
-                    template: '<md-toast>Assessment removed</md-toast>'
+                    template: '<md-toast>Assessment updated !</md-toast>'
                 });
-                $state.go('assessment.creation');
+            }else if(response.type == 'suppression'){
+                $mdToast.show({
+                    template: '<md-toast>Assessment removed !</md-toast>'
+                });
+            }
+        })
+    };
+
+
+    this.save = function () {
+        Restangular.all('assessment')
+            .post(self.data)
+            .then(function (createdAssessment) {
+                assessmentsList.data.push(createdAssessment);
+                $mdToast.show({
+                    template: '<md-toast>Assessment created !</md-toast>'
+                });
+                $state.go('assessment.detail.base', {id: assessment._id});
+            });
+    };
+}
+
+/**
+ * @name  AssessmentBottomCtrl
+ * @description Controller of the bottomsheet of an assessment page
+ */
+function AssessmentBottomCtrl($mdBottomSheet, assessment){
+    this.save = function() {
+        assessment
+            .put()
+            .then(function (updatedAssessment) {
+                var response = {
+                    type: 'update',
+                    data: updatedAssessment
+                };
+                $mdBottomSheet.hide(response);
             });
     };
 
-    this.save = function () {
-        if (self.data._id) {
-            self.data
-                .put()
-                .then(function (updatedAssessment) {
-                    //todo update the list
-                    $mdToast.show({
-                        template: '<md-toast>Assessment updated</md-toast>'
-                    });
-                });
-        } else {
-            Restangular.all('assessment')
-                .post(self.data)
-                .then(function (createdAssessment) {
-                    assessmentsList.data.push(createdAssessment);
-                    $mdToast.show({
-                        template: '<md-toast>Assessment created</md-toast>'
-                    });
-                    $state.go('assessment.edit', {id: assessment._id});
-                });
-        }
+    this.remove = function(){
+        assessment
+            .remove()
+            .then(function () {
+                var response = {
+                    type: 'suppression'
+                };
+                $mdBottomSheet.hide(response);
+                $state.go('assessment.detail.base',{id : ''});
+            });
+    };
+
+    this.share = function(){
+        alert('ther is nothing here :(');
     };
 }
 
@@ -84,4 +118,5 @@ angular.module('assessment.detail', [
     'assessment.detail.compilation'
 ])
     .config(assessmentConfig)
-    .controller('AssessmentCtrl', AssessmentCtrl);
+    .controller('AssessmentCtrl', AssessmentCtrl)
+    .controller('AssessmentBottomCtrl', AssessmentBottomCtrl);

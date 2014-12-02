@@ -36,7 +36,7 @@ function GuideListCtrl($mdToast, list, $mdDialog, Restangular, $stateParams) {
 
     this.list = list;
 
-    this.dialog = function(event,guide){
+    this.dialog = function(event,guide,index){
         $mdDialog
             .show({
                 templateUrl: 'app/assessment/detail/guide/dialog.tpl.html',
@@ -47,14 +47,13 @@ function GuideListCtrl($mdToast, list, $mdDialog, Restangular, $stateParams) {
                 }
             })
             .then(function(response){
-                console.log(response)
                 if(response.type == 'creation'){
                     self.list.push(response.data);
                     $mdToast.show({
                         template: '<md-toast>Guide created</md-toast>'
                     })
                 }else{
-                    //todo update the list
+                    self.list[index] = response.data;
                     $mdToast.show({
                         template: '<md-toast>Guide updated</md-toast>'
                     })
@@ -62,7 +61,7 @@ function GuideListCtrl($mdToast, list, $mdDialog, Restangular, $stateParams) {
 
             })
     };
-    this.remove = function(event, guideId){
+    this.remove = function(event, guideId, index){
         var confirm = $mdDialog
             .confirm()
             .title('Confirm suppression ?')
@@ -77,7 +76,7 @@ function GuideListCtrl($mdToast, list, $mdDialog, Restangular, $stateParams) {
                 .one('guide',guideId)
                 .remove())
             .then(function(){
-                //todo remove from the local list
+                self.list.splice(index,1);
                 $mdToast.show({
                     template: '<md-toast>guide removed successfully</md-toast>'
                 })

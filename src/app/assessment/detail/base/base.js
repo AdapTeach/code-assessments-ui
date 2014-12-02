@@ -30,60 +30,11 @@ function startConfig($stateProvider){
  * @description Controller of the form of assessment creation
  */
 function BaseCtrl(data,Restangular,$mdToast,$mdBottomSheet,$stateParams) {
-    var self = this;
 
-    this.data = data;
-
-    this.save = function(){
-        if (self.data._id) {
-            self.data
-                .put()
-                .then(function (updatedGuide) {
-                    $mdToast.show({
-                        template: '<md-toast>assessment created</md-toast>'
-                    })
-                });
-        } else {
-            Restangular
-                .one('assessment',$stateParams.id)
-                .post(self.data)
-                .then(function (createdGuide) {
-                    $mdToast.show({
-                        template: '<md-toast>assessment updated !</md-toast>'
-                    })
-                });
-        }
-    };
-
-    this.bottom = function(){
-        $mdBottomSheet.show({
-            templateUrl: 'app/assessment/detail/base/bottom.tpl.html',
-            controller: 'AssessmentBottomCtrl',
-            controllerAs: 'assessment'
-        });
-    };
 }
 
-/**
- * @name  AssessmentBottomCtrl
- * @description Controller of the bottomsheet of an assessment page
- */
-function AssessmentBottomCtrl($mdBottomSheet){
-    this.save = function() {
 
-        $mdBottomSheet.hide();
-    };
-
-    this.remove = function(){
-
-    };
-
-    this.share = function(){
-
-    };
-}
 
 angular.module('assessment.detail.base',[])
     .config(startConfig)
-    .controller('BaseCtrl', BaseCtrl)
-    .controller('AssessmentBottomCtrl', AssessmentBottomCtrl);
+    .controller('BaseCtrl', BaseCtrl);

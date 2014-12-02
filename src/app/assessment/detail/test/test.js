@@ -50,6 +50,7 @@ function TestListCtrl($mdToast,list, $mdDialog, Restangular, $stateParams) {
             .then(function(response){
                 if(response.type == 'creation'){
                     self.list.push(response.data);
+                    console.log(self.list)
                     $mdToast.show({
                         template: '<md-toast>Test created</md-toast>'
                     })
@@ -62,7 +63,7 @@ function TestListCtrl($mdToast,list, $mdDialog, Restangular, $stateParams) {
 
             })
     };
-    this.remove = function(event, testId){
+    this.remove = function(event, testId, index){
         var confirm = $mdDialog
             .confirm()
             .title('Confirm suppression ?')
@@ -75,9 +76,10 @@ function TestListCtrl($mdToast,list, $mdDialog, Restangular, $stateParams) {
             .then(Restangular
                 .one('assessment',$stateParams.id)
                 .one('test',testId)
-                .remove())
+                .remove()
+            )
             .then(function(){
-                //todo remove from the local list
+                self.list.splice(index,1);
                 $mdToast.show({
                     template: '<md-toast>test removed !</md-toast>'
                 })

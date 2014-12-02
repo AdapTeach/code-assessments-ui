@@ -1,22 +1,11 @@
 <form name="assessmentBase">
-    <md-toolbar>
-        <div class="md-toolbar-tools">
-            <input type="text" ng-model="assessment.data.title" flex/>
-            <md-button class="md-button md-button-colored" ng-click="base.bottom()" ng-show="base.data._id">
-                <i class="ion ion-2x ion-grid"></i>
-            </md-button>
-            <md-button class="md-button md-button-colored" ng-click="base.save()" ng-hide="base.data._id">
-                <i class="ion ion-2x ion-edit" style="color:#ffffff;"></i>
-            </md-button>
-        </div>
-    </md-toolbar>
     <div layout-padding>
         <h3>Instructions</h3>
-        <textarea name="instruction" rows="5" ng-model="base.data.instructions" placeholder="description"></textarea>
+        <textarea name="instruction" rows="5" ng-model="assessment.data.instructions" placeholder="description"></textarea>
     </div>
     <div>
         <h3>Start Code</h3>
 
-        <div ui-ace="app.AceConfig.java" ng-model="base.data.startCode"></div>
+        <div ui-ace="app.AceConfig.java" ng-model="assessment.data.startCode"></div>
     </div>
 </form>

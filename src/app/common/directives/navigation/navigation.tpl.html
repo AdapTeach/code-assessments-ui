@@ -11,7 +11,10 @@
     </md-toolbar>
     <md-content class="md-content-padding">
         <section layout="column" class="btn-list">
-            <md-button aria-label="assessment link" ui-sref="assessment" class="md-button">
+            <md-button aria-label="home link" ui-sref="home" class="md-button" ui-route="/" ng-class="{'md-primary' : $uiRoute}">
+                Home
+            </md-button>
+            <md-button aria-label="assessment link" ui-sref="assessment" class="md-button" ui-route="/assessment" ng-class="{'md-primary' : $uiRoute}">
                 Assessment
             </md-button>
 
