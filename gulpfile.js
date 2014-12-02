@@ -1,6 +1,6 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
-    concat = require('gulp-concat'),
+    concat = require('gulp-concat-util'),
     jshint = require('gulp-jshint'),
     runSequence = require('run-sequence'),
     del = require('del'),
@@ -55,7 +55,11 @@ gulp.task('buildDev', [
 gulp.task('buildJs', function () {
     gulp.src(config.js)
         .pipe(sourcemaps.init())
-        .pipe(concat(config.buildName))
+        .pipe(concat(config.buildName, {process: function(src) { return (src.trim() + '\n').replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1'); }}))
+        .pipe(concat.header('(function(angular,document) {\n\'use strict\';\n'))
+        .pipe(concat.footer('\n})(angular, document);\n'))
+
+        //.pipe(concat(config.buildName))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(config.build))
         .pipe(refresh(lrserver));

@@ -14,8 +14,34 @@
                 </md-button>
             </div>
         </md-toolbar>
-        <md-text-float label="test title..." flex type="text" ng-model="test.data.title"></md-text-float>
-        <div ui-ace="app.AceConfig.java" ng-model="test.data.code"></div>
-        <textarea rows="5" ng-model="test.data.expectations" placeholder="expectations..."></textarea>
+        <md-content>
+            <md-text-float label="test title..." flex type="text" ng-model="test.data.title"></md-text-float>
+            <div ui-ace="app.AceConfig.java" ng-model="test.data.code"></div>
+                <md-toolbar>
+                    <div class="md-toolbar-tools">
+                        <span flex>Expectations</span>
+                        <md-button ng-click="test.addExpectation()" type="button">
+                            <i class="ion ion-2x ion-plus-circled"></i>
+                        </md-button>
+                    </div>
+                </md-toolbar>
+                <md-list>
+                    <md-item ng-repeat="expectation in test.data.expectations track by $index">
+                        <md-item-content>
+                            <div class="md-tile-content">
+                                <input type="text" ng-model="expectation" style="width:100%;"/>
+                            </div>
+                            <div class="md-tile-right">
+                                <md-button aria-label="remove an expectation" ng-click="test.updateExpectation($index,expectation)" type="button">
+                                    <i class=" ion-2x ion-upload"></i>
+                                </md-button>
+                                <md-button aria-label="remove an expectation" ng-click="test.removeExpectation(expectation)" type="button">
+                                    <i class=" ion-2x ion-trash-a"></i>
+                                </md-button>
+                            </div>
+                        </md-item-content>
+                    </md-item>
+                </md-list>
+        </md-content>
     </form>
 </md-dialog>

@@ -19,6 +19,7 @@
     "del": "*",
     "run-sequence": "*",
     "gulp-concat": "*",
+    "gulp-concat-util": "*",
     "gulp-embedlr": "*",
     "gulp-jshint": "*",
     "jshint-stylish" : "*",

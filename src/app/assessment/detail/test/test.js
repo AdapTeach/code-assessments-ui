@@ -123,6 +123,18 @@ function TestCtrl(data,$stateParams,Restangular,$mdDialog) {
     this.cancel = function(){
         $mdDialog.cancel();
     };
+
+    this.updateExpectation = function(index,value){
+        self.data.expectations[index] = value;
+    };
+
+    this.removeExpectation = function(index){
+        self.data.expectations.splice(index,1);
+    };
+
+    this.addExpectation = function(){
+        self.data.expectations.push('');
+    }
 }
 
 angular.module('assessment.detail.tests',[])

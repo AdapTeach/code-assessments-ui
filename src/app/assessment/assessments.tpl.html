@@ -9,8 +9,12 @@
     </md-toolbar>
     <md-content class="md-content-padding">
         <section layout="column" class="btn-list">
-            <md-button ng-repeat="assessment in app.list" aria-label="assessment button" ui-sref="assessment.detail.base({ id : assessment._id })"
-                       class="md-button">
+            <md-button class="md-button"
+                       ng-repeat="assessment in app.list"
+                       aria-label="assessment button"
+                       ui-route="/assessment/{{ assessment._id }}/base"
+                       ng-class="{'md-primary' : $uiRoute}"
+                       ui-sref="assessment.detail.base({ id : assessment._id })">
                 {{ assessment.title }}
             </md-button>
         </section>
