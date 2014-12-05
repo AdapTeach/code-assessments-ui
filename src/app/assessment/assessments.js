@@ -6,8 +6,18 @@
  */
 function assessmentsConfig($stateProvider) {
     $stateProvider.state('assessment', {
-        url: '/assessment',
+        url: '/assessment/:id',
+        abstract: true,
         resolve: {
+            assessment: function (Restangular, $stateParams) {
+                if ($stateParams.id) {
+                    return Restangular.one('assessment', $stateParams.id).get();
+                } else {
+                    return {
+                        // TODO Redirect somewhere
+                    };
+                }
+            },
             list: function (Restangular) {
                 return Restangular.all('assessment').getList();
             }
@@ -44,7 +54,7 @@ var ACE = {
  */
 function assessmentsList() {
     return {
-        data : []
+        data: []
     };
 }
 
@@ -53,17 +63,21 @@ function assessmentsList() {
  * @name  AssessmentsCtrl
  * @description Controller
  */
-function AssessmentsCtrl(ACE, list, assessmentsList) {
+function AssessmentsCtrl(ACE, list, assessment, assessmentsList, Submissions) {
     var self = this;
     assessmentsList.data = list;
     self.list = assessmentsList.data;
     this.AceConfig = ACE;
+    this.assessment = assessment;
+    this.Submissions = Submissions;
 }
 
 angular.module('assessment', [
-    'assessment.edit'
+    'assessment.edit',
+    'assessment.train',
+    'submission'
 ])
     .constant('ACE', ACE)
     .config(assessmentsConfig)
     .controller('AssessmentsListCtrl', AssessmentsCtrl)
-    .factory('assessmentsList',assessmentsList);
+    .factory('assessmentsList', assessmentsList);

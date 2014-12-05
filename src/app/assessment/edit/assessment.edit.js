@@ -1,23 +1,14 @@
 'use strict';
 
 /**
- * @name  assessmentConfig
+ * @name  assessmentEditConfig
  * @description config of the state assessment.edit
  */
-function assessmentConfig($stateProvider) {
+function assessmentEditConfig($stateProvider) {
     $stateProvider
         .state('assessment.edit', {
-            url: '/:id',
+            url: '/edit',
             abstract: true,
-            resolve: {
-                assessment : function(Restangular,$stateParams){
-                    if($stateParams.id) {
-                        return Restangular.one('assessment', $stateParams.id).get();
-                    }else{
-                        return {};
-                    }
-                }
-            },
             views: {
                 assess: {
                     templateUrl: 'assessment/edit/assessment.edit.tpl.html',
@@ -32,7 +23,7 @@ function assessmentConfig($stateProvider) {
  * @name  AssessmentCtrl
  * @description Controller
  */
-function AssessmentCtrl($stateParams, Restangular, $mdToast,$mdBottomSheet, $state, assessment, assessmentsList) {
+function AssessmentCtrl($stateParams, Restangular, $mdToast, $mdBottomSheet, $state, assessment, assessmentsList) {
     var self = this;
 
     assessmentsList.current = assessment;
@@ -41,7 +32,7 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast,$mdBottomSheet, $sta
 
     this.exist = !!$stateParams.id;
 
-    this.bottom = function(){
+    this.bottom = function () {
         $mdBottomSheet.show({
             templateUrl: 'assessment/edit/bottom.tpl.html',
             controller: 'AssessmentBottomCtrl',
@@ -49,12 +40,12 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast,$mdBottomSheet, $sta
             locals: {
                 assessment: assessment
             }
-        }).then(function(response){
-            if(response.type === 'update'){
+        }).then(function (response) {
+            if (response.type === 'update') {
                 $mdToast.show({
                     template: '<md-toast>Assessment updated !</md-toast>'
                 });
-            }else if(response.type === 'suppression'){
+            } else if (response.type === 'suppression') {
                 $mdToast.show({
                     template: '<md-toast>Assessment removed !</md-toast>'
                 });
@@ -80,8 +71,8 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast,$mdBottomSheet, $sta
  * @name  AssessmentBottomCtrl
  * @description Controller of the bottomsheet of an assessment page
  */
-function AssessmentBottomCtrl($mdBottomSheet, assessment, $state, $window){
-    this.save = function() {
+function AssessmentBottomCtrl($mdBottomSheet, assessment, $state, $window) {
+    this.save = function () {
         assessment
             .put()
             .then(function (updatedAssessment) {
@@ -93,7 +84,7 @@ function AssessmentBottomCtrl($mdBottomSheet, assessment, $state, $window){
             });
     };
 
-    this.remove = function(){
+    this.remove = function () {
         assessment
             .remove()
             .then(function () {
@@ -101,11 +92,11 @@ function AssessmentBottomCtrl($mdBottomSheet, assessment, $state, $window){
                     type: 'suppression'
                 };
                 $mdBottomSheet.hide(response);
-                $state.go('assessment.edit.compilationunits',{id : ''});
+                $state.go('assessment.edit.compilationunits', {id: ''});
             });
     };
 
-    this.share = function(){
+    this.share = function () {
         $window.alert('there is nothing here \'-_-');
     };
 }
@@ -117,6 +108,6 @@ angular.module('assessment.edit', [
     'assessment.edit.tests',
     'assessment.edit.compilation'
 ])
-    .config(assessmentConfig)
+    .config(assessmentEditConfig)
     .controller('AssessmentCtrl', AssessmentCtrl)
     .controller('AssessmentBottomCtrl', AssessmentBottomCtrl);

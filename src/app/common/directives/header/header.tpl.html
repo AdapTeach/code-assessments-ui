@@ -9,9 +9,6 @@
         <persona-login ng-if="!header.me && !header.isLoading" ng-click="header.isLoading = true">
             <md-button class="md-primary" aria-label="login" md-theme="deep-orange">Login</md-button>
         </persona-login>
-        <md-button aria-label="navigation button" ng-click="header.toggleRight()" ng-if="header.me && !header.isLoading">
-            <span class="ion ion-2x ion-navicon"></span>
-        </md-button>
     </div>
     <md-progress-linear md-mode="indeterminate"></md-progress-linear>
 </md-toolbar>
