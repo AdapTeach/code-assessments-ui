@@ -10,9 +10,10 @@
     "restangular": "*",
     "angular-persona-jwt": "*",
     "textAngular": "1.3.0-pre14",
+    "code-assessment-editor": "*",
     "ionicons": "*",
     "animateCSS": "*",
-    "code-assessment-editor": "*"
+    "font-awesome": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.3.0"

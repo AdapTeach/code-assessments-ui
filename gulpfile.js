@@ -148,7 +148,7 @@ gulp.task('cleanDistFolder', function (cb) {
     del(config.dist, cb);
 });
 
-gulp.task('buildDist',['copyImages','copyIoniconsFonts'], function () {
+gulp.task('buildDist',['copyImages','copyFonts'], function () {
     gulp.src(config.index)
         .pipe(usemin({
             css: [minifyCss()],
@@ -162,8 +162,8 @@ gulp.task('copyImages', function(){
     gulp.src(config.images)
         .pipe(copy(config.dist, {prefix: 1}));});
 
-gulp.task('copyIoniconsFonts', function(){
-    gulp.src(config.ionicons)
+gulp.task('copyFonts', function(){
+    gulp.src(config.fonts)
         .pipe(copy(config.dist+'/assets',{ prefix : 3 }));
 });
 

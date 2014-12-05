@@ -12,7 +12,7 @@ module.exports = {
   index: 'src/index.html',
   assets: 'src/assets/**',
   images: 'src/assets/images/**/*',
-  ionicons : 'src/vendor/ionicons/fonts/*',
+  fonts : ['src/vendor/ionicons/fonts/*','src/vendor/font-awesome/font/*'],
   buildName : 'all-source.js',
   build : 'src/build',
   module : 'app',
