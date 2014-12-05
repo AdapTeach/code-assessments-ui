@@ -2,7 +2,7 @@
     <md-toolbar>
         <div class="md-toolbar-tools" layout="row">
             <h1 flex>Assessments </h1>
-            <md-button ui-sref="assessment.edit.compilationunit({ id : '' })" aria-label="edit button">
+            <md-button ui-sref="assessment.edit.compilationunits({ id : '' })" aria-label="edit button">
                 <i class="ion-plus"></i>
             </md-button>
         </div>
@@ -12,9 +12,9 @@
             <md-button class="md-button"
                        ng-repeat="assessment in app.list"
                        aria-label="assessment button"
-                       ui-route="/assessment/{{ assessment._id }}/compilationunit"
+                       ui-route="/assessment/{{ assessment._id }}/compilationunits"
                        ng-class="{'md-primary' : $uiRoute}"
-                       ui-sref="assessment.edit.compilationunit({ id : assessment._id })">
+                       ui-sref="assessment.edit.compilationunits({ id : assessment._id })">
                 {{ assessment.title }}
             </md-button>
         </section>

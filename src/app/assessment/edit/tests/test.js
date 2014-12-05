@@ -18,7 +18,7 @@ function testConfig($stateProvider){
             },
             views: {
                 assessmentTab : {
-                    templateUrl: 'assessment/edit/test/list.tpl.html',
+                    templateUrl: 'assessment/edit/tests/list.tpl.html',
                     controller: 'TestListCtrl as tests'
                 }
             }
@@ -40,7 +40,7 @@ function TestListCtrl($mdToast,list, $mdDialog, Restangular, $stateParams) {
     this.dialog = function(event,test,index){
         $mdDialog
             .show({
-                templateUrl: '..//test/dialog.tpl.html',
+                templateUrl: 'assessment/edit/tests/dialog.tpl.html',
                 controller: 'TestCtrl as test',
                 targetEvent : event,
                 locals: {

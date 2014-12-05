@@ -39,7 +39,7 @@ function GuideListCtrl($mdToast, list, $mdDialog, Restangular, $stateParams) {
     this.dialog = function(event,guide,index){
         $mdDialog
             .show({
-                templateUrl: '..//guide/dialog.tpl.html',
+                templateUrl: 'assessment/edit/guide/dialog.tpl.html',
                 controller: 'GuideCtrl as guide',
                 targetEvent : event,
                 locals: {

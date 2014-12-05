@@ -43,7 +43,7 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast,$mdBottomSheet, $sta
 
     this.bottom = function(){
         $mdBottomSheet.show({
-            templateUrl: '/bottom.tpl.html',
+            templateUrl: 'assessment/edit/bottom.tpl.html',
             controller: 'AssessmentBottomCtrl',
             controllerAs: 'assessment',
             locals: {
@@ -71,7 +71,7 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast,$mdBottomSheet, $sta
                 $mdToast.show({
                     template: '<md-toast>Assessment created !</md-toast>'
                 });
-                $state.go('assessment.edit.compilationunit', {id: createdAssessment._id});
+                $state.go('assessment.edit.compilationunits', {id: createdAssessment._id});
             });
     };
 }
@@ -101,7 +101,7 @@ function AssessmentBottomCtrl($mdBottomSheet, assessment, $state, $window){
                     type: 'suppression'
                 };
                 $mdBottomSheet.hide(response);
-                $state.go('assessment.edit.compilationunit',{id : ''});
+                $state.go('assessment.edit.compilationunits',{id : ''});
             });
     };
 
