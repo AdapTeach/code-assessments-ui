@@ -8,7 +8,6 @@ function assessmentEditConfig($stateProvider) {
     $stateProvider
         .state('assessment.edit', {
             url: '/edit',
-            abstract: true,
             views: {
                 assess: {
                     templateUrl: 'assessment/edit/assessment.edit.tpl.html',

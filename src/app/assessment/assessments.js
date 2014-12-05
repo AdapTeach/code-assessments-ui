@@ -9,13 +9,15 @@ function assessmentsConfig($stateProvider) {
         url: '/assessment/:id',
         abstract: true,
         resolve: {
-            assessment: function (Restangular, $stateParams) {
+            assessment: function (Restangular, $stateParams, $state) {
                 if ($stateParams.id) {
-                    return Restangular.one('assessment', $stateParams.id).get();
+                    if($stateParams.id === 'new'){
+                        return {};
+                    }else{
+                        return Restangular.one('assessment', $stateParams.id).get();
+                    }
                 } else {
-                    return {
-                        // TODO Redirect somewhere
-                    };
+                    $state.go('home');
                 }
             },
             list: function (Restangular) {

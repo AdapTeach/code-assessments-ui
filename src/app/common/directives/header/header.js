@@ -4,8 +4,10 @@
  * @name  HeaderCtrl
  * @description Controller
  */
-function HeaderCtrl(persona,$state,$mdSidenav) {
+function HeaderCtrl(persona,$state,$mdSidenav, Restangular) {
     var self = this;
+
+    this.assessments = Restangular.all('assessment').getList().$object;
 
     this.toggleLeft = function(){
         $mdSidenav('left').toggle();

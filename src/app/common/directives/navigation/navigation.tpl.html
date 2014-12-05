@@ -1,0 +1,22 @@
+<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-theme="teal" md-component-id="left" >
+    <md-toolbar>
+        <div class="md-toolbar-tools" layout="row">
+            <h1 flex>Assessments </h1>
+            <md-button ui-sref="assessment.edit({ id : 'new' })" aria-label="edit button">
+                <i class="ion-plus"></i>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-content class="md-content-padding">
+        <section layout="column" class="btn-list">
+            <md-button class="md-button"
+                       ng-repeat="assessment in nav.list"
+                       aria-label="assessment button"
+                       ui-route="/assessment/{{ assessment._id }}/compilationunits"
+                       ng-class="{'md-primary' : $uiRoute}"
+                       ui-sref="assessment.edit.compilationunits({ id : assessment._id })">
+                {{ assessment.title }}
+            </md-button>
+        </section>
+    </md-content>
+</md-sidenav>

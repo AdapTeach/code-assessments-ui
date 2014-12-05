@@ -1,14 +1,17 @@
-<md-toolbar md-theme="e">
-    <div class="md-toolbar-tools">
-        <md-button aria-label="navigation button" ng-click="header.toggleLeft()" ui-route="/" ng-hide="$uiRoute">
-            <i class="ion-chevron-right ion ion-2x" ></i>
-        </md-button>
-        <span hide-sm>My Super trainer app</span>
-        <span flex></span>
-        <i class="ion-flask ion-2x" ng-if="header.isLoading"></i>
-        <persona-login ng-if="!header.me && !header.isLoading" ng-click="header.isLoading = true">
-            <md-button class="md-primary" aria-label="login" md-theme="deep-orange">Login</md-button>
-        </persona-login>
-    </div>
-    <md-progress-linear md-mode="indeterminate"></md-progress-linear>
-</md-toolbar>
+<header>
+    <md-toolbar md-theme="e">
+        <div class="md-toolbar-tools">
+            <md-button aria-label="navigation button" ng-click="header.toggleLeft()" ng-if="header.me">
+                <i class="ion-chevron-right ion ion-2x" ></i>
+            </md-button>
+            <span hide-sm>My Super trainer app</span>
+            <span flex></span>
+            <i class="ion-flask ion-2x" ng-if="header.isLoading"></i>
+            <persona-login ng-if="!header.me && !header.isLoading" ng-click="header.isLoading = true">
+                <md-button class="md-primary" aria-label="login" md-theme="deep-orange">Login</md-button>
+            </persona-login>
+        </div>
+    </md-toolbar>
+
+    <navigation assessments="header.assessments"></navigation>
+</header>
