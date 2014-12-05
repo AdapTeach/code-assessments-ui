@@ -21,16 +21,13 @@
         </div>
     </collapse-card>
     <md-tabs ng-init="tabs.selectedIndex = 0" center>
-        <md-tab ui-sref="assessment.detail.base">
-            Start code
-        </md-tab>
-        <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.detail.tests">
-            Tests
-        </md-tab>
-        <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.detail.compilationunit">
+        <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.edit.compilationunit">
             Compilation units
         </md-tab>
-        <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.detail.guides" >
+        <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.edit.tests">
+            Tests
+        </md-tab>
+        <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.edit.guides" >
             Guides
         </md-tab>
         <!--<md-tab ng-disabled="!assessment.exist">-->

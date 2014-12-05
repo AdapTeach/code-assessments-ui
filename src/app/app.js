@@ -19,8 +19,8 @@ Array.prototype.move = function (from, to) {
  * @description Constant url of the webservice
  */
 var BACKEND = {
-    //URL: 'http://localhost:5011'
-    URL: 'http://codassessments-adapteach.rhcloud.com'
+    URL: 'http://localhost:5011'
+    //URL: 'http://codassessments-adapteach.rhcloud.com'
 };
 
 /**

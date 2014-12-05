@@ -2,11 +2,11 @@
 
 /**
  * @name  assessmentConfig
- * @description config of the state assessment.detail
+ * @description config of the state assessment.edit
  */
 function assessmentConfig($stateProvider) {
     $stateProvider
-        .state('assessment.detail', {
+        .state('assessment.edit', {
             url: '/:id',
             abstract: true,
             resolve: {
@@ -20,7 +20,7 @@ function assessmentConfig($stateProvider) {
             },
             views: {
                 assess: {
-                    templateUrl: 'assessment/detail/assessment.detail.tpl.html',
+                    templateUrl: 'assessment/edit/assessment.edit.tpl.html',
                     controller: 'AssessmentCtrl as assessment'
                 }
             }
@@ -43,7 +43,7 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast,$mdBottomSheet, $sta
 
     this.bottom = function(){
         $mdBottomSheet.show({
-            templateUrl: 'assessment/detail/bottom.tpl.html',
+            templateUrl: '/bottom.tpl.html',
             controller: 'AssessmentBottomCtrl',
             controllerAs: 'assessment',
             locals: {
@@ -71,7 +71,7 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast,$mdBottomSheet, $sta
                 $mdToast.show({
                     template: '<md-toast>Assessment created !</md-toast>'
                 });
-                $state.go('assessment.detail.base', {id: createdAssessment._id});
+                $state.go('assessment.edit.compilationunit', {id: createdAssessment._id});
             });
     };
 }
@@ -101,7 +101,7 @@ function AssessmentBottomCtrl($mdBottomSheet, assessment, $state, $window){
                     type: 'suppression'
                 };
                 $mdBottomSheet.hide(response);
-                $state.go('assessment.detail.base',{id : ''});
+                $state.go('assessment.edit.compilationunit',{id : ''});
             });
     };
 
@@ -110,13 +110,12 @@ function AssessmentBottomCtrl($mdBottomSheet, assessment, $state, $window){
     };
 }
 
-angular.module('assessment.detail', [
+angular.module('assessment.edit', [
     'textAngular',
-    'assessment.detail.base',
-    'assessment.detail.guides',
-    'assessment.detail.tips',
-    'assessment.detail.tests',
-    'assessment.detail.compilation'
+    'assessment.edit.guides',
+    'assessment.edit.tips',
+    'assessment.edit.tests',
+    'assessment.edit.compilation'
 ])
     .config(assessmentConfig)
     .controller('AssessmentCtrl', AssessmentCtrl)

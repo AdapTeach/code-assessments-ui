@@ -6,7 +6,7 @@
  */
 function compilationUnitConfig($stateProvider) {
     $stateProvider
-        .state('assessment.detail.compilationunit',{
+        .state('assessment.edit.compilationunit',{
             url: '/compilationunit',
             resolve: {
               list: function(Restangular,$stateParams){
@@ -17,7 +17,7 @@ function compilationUnitConfig($stateProvider) {
             },
             views: {
                 assessmentTab: {
-                    templateUrl: 'assessment/detail/compilationUnit/list.tpl.html',
+                    templateUrl: 'assessment/edit/compilationUnit/list.tpl.html',
                     controller: 'CompilationUnitListCtrl as compilationUnits'
                 }
             }
@@ -41,7 +41,7 @@ function CompilationUnitListCtrl($mdDialog, list, Restangular, $stateParams, $md
     this.dialog = function(event,unit,index) {
         $mdDialog
             .show({
-                templateUrl: 'assessment/detail/compilationUnit/dialog.tpl.html',
+                templateUrl: '..//compilationUnit/dialog.tpl.html',
                 controller: 'CompilationUnitCtrl as unit',
                 targetEvent: event,
                 locals: {
@@ -125,7 +125,7 @@ function CompilationUnitCtrl(Restangular, $mdDialog, data, $stateParams) {
 }
 
 
-angular.module('assessment.detail.compilation',[])
+angular.module('assessment.edit.compilation',[])
     .config(compilationUnitConfig)
     .controller('CompilationUnitListCtrl', CompilationUnitListCtrl)
     .controller('CompilationUnitCtrl', CompilationUnitCtrl);

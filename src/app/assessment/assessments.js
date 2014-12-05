@@ -61,7 +61,7 @@ function AssessmentsCtrl(ACE, list, assessmentsList) {
 }
 
 angular.module('assessment', [
-    'assessment.detail'
+    'assessment.edit'
 ])
     .constant('ACE', ACE)
     .config(assessmentsConfig)

@@ -1,67 +1,68 @@
 'use strict';
 
 /**
- * @name  guideConfig
- * @description Configuration of the guide list
+ * @name  testConfig
+ * @description Configuration of the tests list
  */
 
-function guideConfig($stateProvider){
+function testConfig($stateProvider){
     $stateProvider
-        .state('assessment.detail.guides',{
-            url: '/guides',
+        .state('assessment.edit.tests',{
+            url: '/tests',
             resolve: {
-              list: function(Restangular,$stateParams){
-                  return Restangular
-                      .one('assessment', $stateParams.id)
-                      .getList('guide');
-              }
+                list: function(Restangular,$stateParams){
+                    return Restangular
+                        .one('assessment', $stateParams.id)
+                        .getList('test');
+                }
             },
             views: {
                 assessmentTab : {
-                    templateUrl: 'assessment/detail/guide/list.tpl.html',
-                    controller: 'GuideListCtrl as guides'
+                    templateUrl: 'assessment/edit/test/list.tpl.html',
+                    controller: 'TestListCtrl as tests'
                 }
             }
         });
 }
 
 
+
 /**
- * @name  GuideListCtrl
- * @description Controller of the guide list in the tabs
+ * @name  TestistCtrl
+ * @description Controller of the test list in the tabs
  */
-function GuideListCtrl($mdToast, list, $mdDialog, Restangular, $stateParams) {
+function TestListCtrl($mdToast,list, $mdDialog, Restangular, $stateParams) {
 
     var self = this;
 
     this.list = list;
 
-    this.dialog = function(event,guide,index){
+    this.dialog = function(event,test,index){
         $mdDialog
             .show({
-                templateUrl: 'assessment/detail/guide/dialog.tpl.html',
-                controller: 'GuideCtrl as guide',
+                templateUrl: '..//test/dialog.tpl.html',
+                controller: 'TestCtrl as test',
                 targetEvent : event,
                 locals: {
-                    data:  guide || {}
+                    data:  test || {expectations : []}
                 }
             })
             .then(function(response){
                 if(response.type === 'creation'){
                     self.list.push(response.data);
                     $mdToast.show({
-                        template: '<md-toast>Guide created</md-toast>'
+                        template: '<md-toast>Test created</md-toast>'
                     });
                 }else{
                     self.list[index] = response.data;
                     $mdToast.show({
-                        template: '<md-toast>Guide updated</md-toast>'
+                        template: '<md-toast>Test updated</md-toast>'
                     });
                 }
 
             });
     };
-    this.remove = function(event, guideId, index){
+    this.remove = function(event, testId, index){
         var confirm = $mdDialog
             .confirm()
             .title('Confirm suppression ?')
@@ -73,22 +74,23 @@ function GuideListCtrl($mdToast, list, $mdDialog, Restangular, $stateParams) {
         $mdDialog.show(confirm)
             .then(Restangular
                 .one('assessment',$stateParams.id)
-                .one('guide',guideId)
-                .remove())
+                .one('test',testId)
+                .remove()
+            )
             .then(function(){
                 self.list.splice(index,1);
                 $mdToast.show({
-                    template: '<md-toast>guide removed successfully</md-toast>'
+                    template: '<md-toast>test removed !</md-toast>'
                 });
             });
     };
 }
 
 /**
- * @name  GuideCtrl
- * @description Controller of the dialog of guide creation
+ * @name  TestCtrl
+ * @description Controller of the dialog of test edition
  */
-function GuideCtrl(data,$stateParams,Restangular,$mdDialog) {
+function TestCtrl(data,$stateParams,Restangular,$mdDialog) {
     var self = this;
 
     this.data = Restangular.copy(data);
@@ -106,7 +108,7 @@ function GuideCtrl(data,$stateParams,Restangular,$mdDialog) {
         } else {
             Restangular
                 .one('assessment',$stateParams.id)
-                .all('guide')
+                .all('test')
                 .post(self.data)
                 .then(function (createdGuide) {
                     $mdDialog.hide({
@@ -120,11 +122,21 @@ function GuideCtrl(data,$stateParams,Restangular,$mdDialog) {
     this.cancel = function(){
         $mdDialog.cancel();
     };
+
+    this.updateExpectation = function(index,value){
+        self.data.expectations[index] = value;
+    };
+
+    this.removeExpectation = function(index){
+        self.data.expectations.splice(index,1);
+    };
+
+    this.addExpectation = function(){
+        self.data.expectations.push('');
+    };
 }
 
-angular.module('assessment.detail.guides',[])
-    .config(guideConfig)
-    .controller('GuideListCtrl', GuideListCtrl)
-    .controller('GuideCtrl', GuideCtrl);
-
-
+angular.module('assessment.edit.tests',[])
+    .config(testConfig)
+    .controller('TestListCtrl', TestListCtrl)
+    .controller('TestCtrl', TestCtrl);
