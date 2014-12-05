@@ -18,11 +18,11 @@ function testConfig($stateProvider){
             },
             views: {
                 assessmentTab : {
-                    templateUrl: 'app/assessment/detail/test/list.tpl.html',
+                    templateUrl: 'assessment/detail/test/list.tpl.html',
                     controller: 'TestListCtrl as tests'
                 }
             }
-        })
+        });
 }
 
 
@@ -40,28 +40,27 @@ function TestListCtrl($mdToast,list, $mdDialog, Restangular, $stateParams) {
     this.dialog = function(event,test,index){
         $mdDialog
             .show({
-                templateUrl: 'app/assessment/detail/test/dialog.tpl.html',
+                templateUrl: 'assessment/detail/test/dialog.tpl.html',
                 controller: 'TestCtrl as test',
                 targetEvent : event,
                 locals: {
-                    data:  test || {}
+                    data:  test || {expectations : []}
                 }
             })
             .then(function(response){
-                if(response.type == 'creation'){
+                if(response.type === 'creation'){
                     self.list.push(response.data);
-                    console.log(self.list)
                     $mdToast.show({
                         template: '<md-toast>Test created</md-toast>'
-                    })
+                    });
                 }else{
                     self.list[index] = response.data;
                     $mdToast.show({
                         template: '<md-toast>Test updated</md-toast>'
-                    })
+                    });
                 }
 
-            })
+            });
     };
     this.remove = function(event, testId, index){
         var confirm = $mdDialog
@@ -82,9 +81,9 @@ function TestListCtrl($mdToast,list, $mdDialog, Restangular, $stateParams) {
                 self.list.splice(index,1);
                 $mdToast.show({
                     template: '<md-toast>test removed !</md-toast>'
-                })
-            })
-    }
+                });
+            });
+    };
 }
 
 /**
@@ -134,7 +133,7 @@ function TestCtrl(data,$stateParams,Restangular,$mdDialog) {
 
     this.addExpectation = function(){
         self.data.expectations.push('');
-    }
+    };
 }
 
 angular.module('assessment.detail.tests',[])

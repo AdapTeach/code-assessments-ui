@@ -12,16 +12,16 @@ function compilationUnitConfig($stateProvider) {
               list: function(Restangular,$stateParams){
                   return Restangular
                       .one('assessment',$stateParams.id)
-                      .getList('compilationunit')
+                      .getList('compilationunit');
               }
             },
             views: {
                 assessmentTab: {
-                    templateUrl: 'app/assessment/detail/compilationUnit/list.tpl.html',
+                    templateUrl: 'assessment/detail/compilationUnit/list.tpl.html',
                     controller: 'CompilationUnitListCtrl as compilationUnits'
                 }
             }
-        })
+        });
 }
 
 
@@ -41,27 +41,26 @@ function CompilationUnitListCtrl($mdDialog, list, Restangular, $stateParams, $md
     this.dialog = function(event,unit,index) {
         $mdDialog
             .show({
-                templateUrl: 'app/assessment/detail/compilationUnit/dialog.tpl.html',
+                templateUrl: 'assessment/detail/compilationUnit/dialog.tpl.html',
                 controller: 'CompilationUnitCtrl as unit',
                 targetEvent: event,
                 locals: {
-                    data:  unit || {}
+                    data:  unit || { type : 'provided'}
                 }
             })
             .then(function (response) {
-                if (response.type == 'creation') {
+                if (response.type === 'creation') {
                     self.list.push(response.data);
                     $mdToast.show({
                         template: '<md-toast>Compilation-unit created !</md-toast>'
-                    })
+                    });
                 } else {
                     self.list[index] = response.data;
                     $mdToast.show({
                         template: '<md-toast>Compilation-unit updated !</md-toast>'
-                    })
+                    });
                 }
-
-            })
+            });
     };
 
     this.remove = function(event, cuId, index){
@@ -83,9 +82,9 @@ function CompilationUnitListCtrl($mdDialog, list, Restangular, $stateParams, $md
                 self.list.splice(index,1);
                 $mdToast.show({
                     template: '<md-toast>compilation unit removed successfully</md-toast>'
-                })
-            })
-    }
+                });
+            });
+    };
 }
 
 /**

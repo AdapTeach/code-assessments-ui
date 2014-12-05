@@ -15,13 +15,13 @@ function NavigationCtrl(){
 function navigation (){
     return {
         restrict : 'E',
-        templateUrl : 'app/common/directives/navigation/navigation.tpl.html',
+        templateUrl : 'common/directives/navigation/navigation.tpl.html',
         controller : 'NavigationCtrl',
         controllerAs : 'nav',
         replace : true
-    }
+    };
 }
 
 angular.module('common.navigation', [])
-    .controller('NavigationCtrl', HeaderCtrl)
+    .controller('NavigationCtrl', NavigationCtrl)
     .directive('navigation',navigation);

@@ -1,7 +1,6 @@
 # general
 .idea
 .DS_Store
-*~
 .sass-cache
 
 #config
@@ -16,6 +15,10 @@ npm-debug.log
 
 # build
 src/build
+dist
+
+#docs
+docs
 
 #test
 test/screenshots/*

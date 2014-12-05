@@ -18,11 +18,11 @@ function startConfig($stateProvider){
             },
             views: {
                 assessmentTab : {
-                    templateUrl: 'app/assessment/detail/base/base.tpl.html',
+                    templateUrl: 'assessment/detail/base/base.tpl.html',
                     controller: 'BaseCtrl as base'
                 }
             }
-        })
+        });
 }
 
 /**

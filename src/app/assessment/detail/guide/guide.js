@@ -18,11 +18,11 @@ function guideConfig($stateProvider){
             },
             views: {
                 assessmentTab : {
-                    templateUrl: 'app/assessment/detail/guide/list.tpl.html',
+                    templateUrl: 'assessment/detail/guide/list.tpl.html',
                     controller: 'GuideListCtrl as guides'
                 }
             }
-        })
+        });
 }
 
 
@@ -39,7 +39,7 @@ function GuideListCtrl($mdToast, list, $mdDialog, Restangular, $stateParams) {
     this.dialog = function(event,guide,index){
         $mdDialog
             .show({
-                templateUrl: 'app/assessment/detail/guide/dialog.tpl.html',
+                templateUrl: 'assessment/detail/guide/dialog.tpl.html',
                 controller: 'GuideCtrl as guide',
                 targetEvent : event,
                 locals: {
@@ -47,19 +47,19 @@ function GuideListCtrl($mdToast, list, $mdDialog, Restangular, $stateParams) {
                 }
             })
             .then(function(response){
-                if(response.type == 'creation'){
+                if(response.type === 'creation'){
                     self.list.push(response.data);
                     $mdToast.show({
                         template: '<md-toast>Guide created</md-toast>'
-                    })
+                    });
                 }else{
                     self.list[index] = response.data;
                     $mdToast.show({
                         template: '<md-toast>Guide updated</md-toast>'
-                    })
+                    });
                 }
 
-            })
+            });
     };
     this.remove = function(event, guideId, index){
         var confirm = $mdDialog
@@ -79,9 +79,9 @@ function GuideListCtrl($mdToast, list, $mdDialog, Restangular, $stateParams) {
                 self.list.splice(index,1);
                 $mdToast.show({
                     template: '<md-toast>guide removed successfully</md-toast>'
-                })
-            })
-    }
+                });
+            });
+    };
 }
 
 /**

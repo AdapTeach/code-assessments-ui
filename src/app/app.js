@@ -1,19 +1,26 @@
 'use strict';
 
+/**
+ * @name  BACKEND
+ * @description Constant url of the webservice
+ */
 Array.prototype.move = function (from, to) {
     this.splice(to, 0, this.splice(from, 1)[0]);
 };
 
-angular.element(document).ready(function () {
-    angular.bootstrap(document, ['app']);
-});
+
+//angular.element(document).ready(function () {
+//    angular.bootstrap(document, ['app']);
+//});
+
 
 /**
  * @name  BACKEND
  * @description Constant url of the webservice
  */
 var BACKEND = {
-    URL: 'http://localhost:5011'
+    //URL: 'http://localhost:5011'
+    URL: 'http://codassessments-adapteach.rhcloud.com'
 };
 
 /**

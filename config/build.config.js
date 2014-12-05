@@ -1,6 +1,5 @@
-'use strict';
+var pkg = require('../package.json')
 
-//basic configuration object used by gulp tasks
 module.exports = {
   port: 5000,
   livereloadport : 35729,
@@ -13,15 +12,17 @@ module.exports = {
   index: 'src/index.html',
   assets: 'src/assets/**',
   images: 'src/assets/images/**/*',
+  ionicons : 'src/vendor/ionicons/fonts/*',
   buildName : 'all-source.js',
   build : 'src/build',
   module : 'app',
-  banner: ['/**',
-    ' * <%= pkg.name %> - <%= pkg.description %>',
-    ' * @version v<%= pkg.version %>',
-    ' * @link <%= pkg.homepage %>',
-    ' * @license <%= pkg.license %>',
+  header: ['/**',
+    ' * '+pkg.name+' - '+pkg.description,
+    ' * @version v '+ pkg.version,
+    ' * @link '+pkg.homepage,
+    ' * @license '+pkg.license,
     ' */',
-    ''
-  ].join('\n')
+    '(function(angular,document) {\'use strict\';\n'
+  ].join('\n'),
+  footer: '\n})(angular, document);\n'
 };

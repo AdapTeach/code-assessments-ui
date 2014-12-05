@@ -1,8 +1,8 @@
 'use strict';
 
 /**
- * @name  config
- * @description config block
+ * @name  homeConfig
+ * @description config for the state home
  */
 function homeConfig($stateProvider) {
   $stateProvider
@@ -10,7 +10,7 @@ function homeConfig($stateProvider) {
       url: '/',
       views: {
         main: {
-          templateUrl: 'app/home/home.tpl.html',
+          templateUrl: 'home/home.tpl.html',
           controller: 'HomeCtrl as home'
         }
       }

@@ -1,8 +1,8 @@
 'use strict';
 
 /**
- * @name  config
- * @description config block
+ * @name  assessmentConfig
+ * @description config of the state assessment.detail
  */
 function assessmentConfig($stateProvider) {
     $stateProvider
@@ -20,7 +20,7 @@ function assessmentConfig($stateProvider) {
             },
             views: {
                 assess: {
-                    templateUrl: 'app/assessment/detail/assessment.tpl.html',
+                    templateUrl: 'assessment/detail/assessment.detail.tpl.html',
                     controller: 'AssessmentCtrl as assessment'
                 }
             }
@@ -29,7 +29,7 @@ function assessmentConfig($stateProvider) {
 
 
 /**
- * @name  Assessment
+ * @name  AssessmentCtrl
  * @description Controller
  */
 function AssessmentCtrl($stateParams, Restangular, $mdToast,$mdBottomSheet, $state, assessment, assessmentsList) {
@@ -43,23 +43,23 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast,$mdBottomSheet, $sta
 
     this.bottom = function(){
         $mdBottomSheet.show({
-            templateUrl: 'app/assessment/detail/bottom.tpl.html',
+            templateUrl: 'assessment/detail/bottom.tpl.html',
             controller: 'AssessmentBottomCtrl',
             controllerAs: 'assessment',
             locals: {
                 assessment: assessment
             }
         }).then(function(response){
-            if(response.type == 'update'){
+            if(response.type === 'update'){
                 $mdToast.show({
                     template: '<md-toast>Assessment updated !</md-toast>'
                 });
-            }else if(response.type == 'suppression'){
+            }else if(response.type === 'suppression'){
                 $mdToast.show({
                     template: '<md-toast>Assessment removed !</md-toast>'
                 });
             }
-        })
+        });
     };
 
 
@@ -71,7 +71,7 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast,$mdBottomSheet, $sta
                 $mdToast.show({
                     template: '<md-toast>Assessment created !</md-toast>'
                 });
-                $state.go('assessment.detail.base', {id: assessment._id});
+                $state.go('assessment.detail.base', {id: createdAssessment._id});
             });
     };
 }
@@ -80,7 +80,7 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast,$mdBottomSheet, $sta
  * @name  AssessmentBottomCtrl
  * @description Controller of the bottomsheet of an assessment page
  */
-function AssessmentBottomCtrl($mdBottomSheet, assessment){
+function AssessmentBottomCtrl($mdBottomSheet, assessment, $state, $window){
     this.save = function() {
         assessment
             .put()
@@ -106,11 +106,12 @@ function AssessmentBottomCtrl($mdBottomSheet, assessment){
     };
 
     this.share = function(){
-        alert('ther is nothing here :(');
+        $window.alert('there is nothing here \'-_-');
     };
 }
 
 angular.module('assessment.detail', [
+    'textAngular',
     'assessment.detail.base',
     'assessment.detail.guides',
     'assessment.detail.tips',

@@ -1,8 +1,10 @@
 .ace_editor {
-  height: 200px;
+  height: 600px;
   font-size: 16px !important;
 }
-
+input{
+  width:100%;
+}
 .dialog-edit{
   .ion{
     color : white;
@@ -14,6 +16,16 @@
     width: 100%;
   }
 }
+
+
+.ta-editor {
+  min-height: 300px;
+  height: auto;
+  overflow: auto;
+  font-family: inherit;
+  font-size: 100%;
+}
+
 
 //animation
 .tab1 {

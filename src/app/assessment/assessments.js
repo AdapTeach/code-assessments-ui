@@ -2,7 +2,7 @@
 
 /**
  * @name  assessmentsConfig
- * @description config block
+ * @description config of state assessment
  */
 function assessmentsConfig($stateProvider) {
     $stateProvider.state('assessment', {
@@ -14,7 +14,7 @@ function assessmentsConfig($stateProvider) {
         },
         views: {
             main: {
-                templateUrl: 'app/assessment/assessments.tpl.html',
+                templateUrl: 'assessment/assessments.tpl.html',
                 controller: 'AssessmentsListCtrl as app'
             }
         }

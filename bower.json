@@ -8,8 +8,10 @@
     "angular-ui-ace": "*",
     "angular-material": "master",
     "restangular": "*",
+    "angular-persona-jwt": "*",
+    "textAngular": "1.3.0-pre14",
     "ionicons": "*",
-    "angular-persona-jwt": "*"
+    "animateCSS": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.3.0"

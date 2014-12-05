@@ -5,23 +5,33 @@
             <md-button class="md-button md-button-colored" ng-click="assessment.bottom()" ng-show="assessment.exist">
                 <i class="ion ion-2x ion-grid"></i>
             </md-button>
+            <collapse-button>
+                <md-button>
+                    Instructions
+                </md-button>
+            </collapse-button>
             <md-button class="md-button md-button-colored" ng-click="assessment.save()" ng-hide="assessment.exist">
                 <i class="ion ion-2x ion-edit" style="color:#ffffff;"></i>
             </md-button>
         </div>
     </md-toolbar>
+    <collapse-card>
+        <div layout-padding>
+            <text-angular style="width:100%;" placeholder="Instructions" ng-model="assessment.data.instructions"></text-angular>
+        </div>
+    </collapse-card>
     <md-tabs ng-init="tabs.selectedIndex = 0" center>
         <md-tab ui-sref="assessment.detail.base">
-            Base
+            Start code
         </md-tab>
         <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.detail.tests">
-            Test
+            Tests
         </md-tab>
         <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.detail.compilationunit">
-            Compilation unit
+            Compilation units
         </md-tab>
         <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.detail.guides" >
-            Guide
+            Guides
         </md-tab>
         <!--<md-tab ng-disabled="!assessment.exist">-->
             <!--Tips-->

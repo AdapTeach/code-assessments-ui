@@ -1,11 +1,5 @@
 <form name="assessmentBase">
-    <div layout-padding>
-        <h3>Instructions</h3>
-        <textarea name="instruction" rows="5" ng-model="assessment.data.instructions" placeholder="description"></textarea>
-    </div>
     <div>
-        <h3>Start Code</h3>
-
         <div ui-ace="app.AceConfig.java" ng-model="assessment.data.startCode"></div>
     </div>
 </form>

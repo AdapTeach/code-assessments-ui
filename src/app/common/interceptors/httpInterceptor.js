@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * @name  httpInterceptor
+ * @description middleware for $http
+ */
 function httpInterceptor($q, $log) {
     return {
         request: function (config) {

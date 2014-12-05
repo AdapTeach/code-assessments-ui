@@ -15,17 +15,23 @@ function HeaderCtrl(persona,$state,$mdSidenav) {
         $mdSidenav('right').toggle();
     };
 
-    persona.addLoginListener(function (loggedUser) {
+    this.isLoading = true;
+
+    persona.init().then(function(){
         self.isLoading = false;
-        self.me = loggedUser;
     });
 
+    persona.addLoginListener(function (loggedUser) {
+            self.isLoading = false;
+            self.me = loggedUser;
+        });
+
     persona.addLogoutListener(function () {
-        self.me = null;
-        self.isLoading = false;
-        $mdSidenav('right').toggle();
-        $state.go('home');
-    });
+            self.me = null;
+            self.isLoading = false;
+            $mdSidenav('right').toggle();
+            $state.go('home');
+        });
 }
 
 /**
@@ -35,11 +41,11 @@ function HeaderCtrl(persona,$state,$mdSidenav) {
 function mainHeader (){
     return {
         restrict : 'E',
-        templateUrl : 'app/common/directives/header/header.tpl.html',
+        templateUrl : 'common/directives/header/header.tpl.html',
         controller : 'HeaderCtrl',
         controllerAs : 'header',
         replace : true
-    }
+    };
 }
 
 

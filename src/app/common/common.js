@@ -4,5 +4,6 @@ angular.module('common',[
     'common.interceptors',
     'common.filters',
     'common.header',
-    'common.navigation'
+    'common.navigation',
+    'common.collapse'
 ]);

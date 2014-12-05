@@ -17,28 +17,21 @@ var gulp = require('gulp'),
     minifyHtml = require('gulp-minify-html'),
     rev = require('gulp-rev'),
     sourcemaps = require('gulp-sourcemaps'),
-    templateCache = require('gulp-angular-templatecache')
+    templateCache = require('gulp-angular-templatecache'),
+    ngDocs = require('gulp-ngdocs'),
+    awspublish = require('gulp-awspublish'),
     config = require('./config/build.config'),
     testConfig = require('./config/test.config'),
     deployConfig = require('./config/deploy.config');
 
-var livereloadport = 35729,
-    serverport = 5000;
 
-
-// DEV SERVER
-var devServer = express();
-devServer.use(livereload({port: config.livereloadport}));
-devServer.use(express.static(config.base));
-devServer.all('/*', function (req, res) {
-    res.sendFile('index.html', {root: config.base});
-});
 
 
 gulp.task('default', ['dev'], function () {
 });
 
 gulp.task('dev', [
+    'lint',
     'buildDev',
     'startDevServer',
     'watchSource'
@@ -52,13 +45,33 @@ gulp.task('buildDev', [
 ], function () {
 });
 
+gulp.task('docs',function(){
+    var options = {
+        scripts: [config.js],
+        html5Mode: true,
+        startPage: '/',
+        title: "Code assessments Docs",
+        image: "https://startpage.com/graphics/startpage_logo_res.gif",
+        imageLink: "https://startpage.com/graphics/startpage_logo_res.gif"
+    };
+    gulp.src(config.js)
+        .pipe(ngDocs.process(options))
+        .pipe(gulp.dest('./docs'));
+    var docsServer = express();
+    docsServer.use(express.static('docs'));
+    docsServer.all('/*', function (req, res) {
+        res.sendFile('index.html', {root: 'docs'});
+    });
+    docsServer.listen(config.port);
+});
+
 gulp.task('buildJs', function () {
     gulp.src(config.js)
         .pipe(sourcemaps.init())
         .pipe(concat(config.buildName, {process: function(src) { return (src.trim() + '\n').replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1'); }}))
-        .pipe(concat.header('(function(angular,document) {\n\'use strict\';\n'))
-        .pipe(concat.footer('\n})(angular, document);\n'))
-
+        .pipe(concat.header(config.header))
+        .pipe(concat.footer(config.footer))
+        .pipe(annotate())
         //.pipe(concat(config.buildName))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(config.build))
@@ -81,6 +94,12 @@ gulp.task('cacheTemplates', function () {
 });
 
 gulp.task('startDevServer', function () {
+    var devServer = express();
+    devServer.use(livereload({port: config.livereloadport}));
+    devServer.use(express.static(config.base));
+    devServer.all('/*', function (req, res) {
+        res.sendFile('index.html', {root: config.base});
+    });
     devServer.listen(config.port);
     lrserver.listen(config.livereloadport);
 });
@@ -129,16 +148,23 @@ gulp.task('cleanDistFolder', function (cb) {
     del(config.dist, cb);
 });
 
-gulp.task('buildDist', function () {
+gulp.task('buildDist',['copyImages','copyIoniconsFonts'], function () {
     gulp.src(config.index)
         .pipe(usemin({
             css: [minifyCss()],
             html: [minifyHtml({empty: true})],
-            js: [annotate(), uglify(), rev()]
+            js: [uglify(), rev()]
         }))
         .pipe(gulp.dest(config.dist));
+});
+
+gulp.task('copyImages', function(){
     gulp.src(config.images)
-        .pipe(copy(config.dist, {prefix: 1}));
+        .pipe(copy(config.dist, {prefix: 1}));});
+
+gulp.task('copyIoniconsFonts', function(){
+    gulp.src(config.ionicons)
+        .pipe(copy(config.dist+'/assets',{ prefix : 3 }));
 });
 
 gulp.task('startProdServer', function () {
@@ -148,4 +174,15 @@ gulp.task('startProdServer', function () {
         res.sendFile('index.html', {root: config.dist});
     });
     server.listen(config.port);
+});
+
+gulp.task('s3', function () {
+    var publisher = awspublish.create(deployConfig);
+    var headers = {
+        'Cache-Control': 'max-age=5, no-transform, public' // 5 seconds cache TTL
+    };
+    return gulp.src('dist/**/*')
+        .pipe(publisher.publish(headers))
+        .pipe(publisher.cache()) // create a cache file to speed up consecutive uploads
+        .pipe(awspublish.reporter());
 });
