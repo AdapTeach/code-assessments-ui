@@ -1,4 +1,10 @@
-.collapse.ng-enter{
-  animation: bounceInDown 1s linear;
-  -webkit-animation: bounceInDown 1s linear;
+collapse-card{
+  height: 0px;
+  overflow: hidden;
+  -moz-transition: height 0.2s linear;
+  transition: all 0.5s linear;
+}
+
+collapse-card.open{
+  height:450px;
 }

@@ -28,13 +28,13 @@ var BACKEND = {
  * @description configuration function
  */
 function config($urlRouterProvider, $httpProvider, $locationProvider, RestangularProvider, BACKEND, personaProvider) {
-    $locationProvider.html5Mode(true);
+    //$locationProvider.html5Mode(true);
     $urlRouterProvider.otherwise('/');
     $httpProvider.interceptors.push('httpInterceptor');
     RestangularProvider.setBaseUrl(BACKEND.URL);
     personaProvider.config({
         baseUrl: BACKEND.URL,
-        tokenName: 'code-assess-token'
+        tokenName: 'code-assessment'
     });
 }
 

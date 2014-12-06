@@ -1,14 +1,12 @@
 <section layout="column" md-theme="teal">
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <input type="text" ng-model="assessment.data.title" flex/>
-            <md-button class="md-button md-button-colored" ng-click="assessment.bottom()" ng-show="assessment.exist">
+            <input type="text" ng-model="assessment.data.title" flex placeholder="assessment title"/>
+            <md-button ng-click="assessment.bottom()" ng-show="assessment.exist">
                 <i class="ion ion-2x ion-grid"></i>
             </md-button>
             <collapse-button>
-                <md-button>
-                    Instructions
-                </md-button>
+
             </collapse-button>
             <md-button class="md-button md-button-colored" ng-click="assessment.save()" ng-hide="assessment.exist">
                 <i class="ion ion-2x ion-edit" style="color:#ffffff;"></i>
@@ -30,38 +28,8 @@
         <md-tab ng-disabled="!assessment.exist" ui-sref="assessment.edit.guides" >
             Guides
         </md-tab>
-        <!--<md-tab ng-disabled="!assessment.exist">-->
-            <!--Tips-->
-        <!--</md-tab>-->
     </md-tabs>
-    <!--<div class="tab-content-container" layout layout-fill ng-switch on="tabs.selectedIndex">-->
-        <!--<div class="animate-switch tab1"-->
-             <!--ng-switch-when="0"-->
-             <!--md-swipe-left="next()"-->
-             <!--md-swipe-right="previous()">-->
-            <!--<ng-include src="'app/assessment/edit/assessment-edit.tpl.html'"></ng-include>-->
-        <!--</div>-->
-        <!--<div class="animate-switch tab2"-->
-             <!--ng-switch-when="1"-->
-             <!--md-swipe-left="next()"-->
-             <!--md-swipe-right="previous()">-->
-            <!--<ng-include src="'app/assessment/test/list.tpl.html'"></ng-include>-->
-        <!--</div>-->
-        <!--<div class="animate-switch tab3"-->
-             <!--ng-switch-when="2"-->
-             <!--md-swipe-left="next()"-->
-             <!--md-swipe-right="previous()">-->
-            <!--<ng-include src="'app/assessment/tip/list.tpl.html'"></ng-include>-->
-        <!--</div>-->
-        <!--<div class="animate-switch tab4"-->
-             <!--ng-switch-when="3"-->
-             <!--md-swipe-left="next()"-->
-             <!--md-swipe-right="previous()">-->
-            <!--<ng-include src="'app/assessment/guide/list.tpl.html'"></ng-include>-->
-
-        <!--</div>-->
-    <!--</div>-->
-    <section ui-view="assessmentTab">
+    <section ui-view="assessmentTab" class="gsapify-router" autoscroll="false">
 
     </section>
 </section>

@@ -5,11 +5,14 @@ function collapseCard(collapse){
         restrict: 'EA',
         transclude: true,
         scope: {},
-        template: '<md-whiteframe ng-if="isOpen" class="md-whiteframe-z1 collapse"  ng-transclude></md-whiteframe>',
-        link: function(scope, element, attrs, accordionController) {
+        templateUrl: 'common/directives/collapse-card/collapse-card.tpl.html',
+        link: function(scope, element) {
+            element.addClass('open');
+
             scope.$watch(function(){
                 return collapse.isOpen;
             },function(){
+                element.toggleClass('open');
                 scope.isOpen = collapse.isOpen;
             });
         }
@@ -19,10 +22,10 @@ function collapseCard(collapse){
 function collapseButton(collapse){
     return {
         restrict: 'EA',
-        replace: true,
         transclude: true,
-        template: '<div ng-transclude="" ng-click="toggle()"></div>',
+        templateUrl: 'common/directives/collapse-card/collapse-button.tpl.html',
         link: function(scope) {
+            scope.button = collapse;
             scope.toggle = function toggle() {
                 collapse.isOpen = !collapse.isOpen;
             };

@@ -4,7 +4,7 @@
  * @name  NavigationCtrl
  * @description Controller
  */
-function NavigationCtrl(persona,$state,$mdSidenav) {
+function NavigationCtrl($scope) {
 
 }
 
@@ -17,8 +17,6 @@ function navigation(){
         restrict : 'EA',
         templateUrl : 'common/directives/navigation/navigation.tpl.html',
         controller : 'NavigationCtrl',
-        controllerAs : 'nav',
-        require:'mainHeader',
         scope: {
           assessments: '='
         }

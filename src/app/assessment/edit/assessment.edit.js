@@ -29,7 +29,9 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast, $mdBottomSheet, $st
 
     this.data = assessment;
 
-    this.exist = !!$stateParams.id;
+    console.log($stateParams.id !== 'new');
+
+    this.exist = $stateParams.id !== 'new';
 
     this.bottom = function () {
         $mdBottomSheet.show({
@@ -70,7 +72,8 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast, $mdBottomSheet, $st
  * @name  AssessmentBottomCtrl
  * @description Controller of the bottomsheet of an assessment page
  */
-function AssessmentBottomCtrl($mdBottomSheet, assessment, $state, $window) {
+function AssessmentBottomCtrl($mdBottomSheet, assessment, $state) {
+    this.data = assessment;
     this.save = function () {
         assessment
             .put()
@@ -93,10 +96,6 @@ function AssessmentBottomCtrl($mdBottomSheet, assessment, $state, $window) {
                 $mdBottomSheet.hide(response);
                 $state.go('assessment.edit.compilationunits', {id: ''});
             });
-    };
-
-    this.share = function () {
-        $window.alert('there is nothing here \'-_-');
     };
 }
 

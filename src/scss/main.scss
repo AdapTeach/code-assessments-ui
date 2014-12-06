@@ -4,4 +4,4 @@ https://github.com/minamarkham/sassy-starter/
 https://github.com/kachunchau/smacss-boilerplate
 https://github.com/davidrapson/scss-toolkit
 */
-@import 'settings', 'mixins', 'base', 'helpers', 'modules/ngmaterial', '../app/assessment/assessment';
+@import 'settings', 'mixins', 'helpers','mediaQueries','animations', 'modules/ngmaterial', '../app/assessment/assessment','../app/common/directives/collapse-card/collapse';

@@ -8,8 +8,15 @@
             <span flex></span>
             <i class="ion-flask ion-2x" ng-if="header.isLoading"></i>
             <persona-login ng-if="!header.me && !header.isLoading" ng-click="header.isLoading = true">
-                <md-button class="md-primary" aria-label="login" md-theme="deep-orange">Login</md-button>
+                <md-button aria-label="login">
+                    <i class="ion ion-2x ion-log-in"></i>
+                </md-button>
             </persona-login>
+            <persona-logout ng-if="header.me && !header.isLoading">
+                <md-button aria-label="logout">
+                    <i class="ion ion-2x ion-log-out"></i>
+                </md-button>
+            </persona-logout>
         </div>
     </md-toolbar>
 

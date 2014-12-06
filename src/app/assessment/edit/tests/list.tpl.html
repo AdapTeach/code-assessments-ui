@@ -1,23 +1,25 @@
-<md-toolbar>
-    <div class="md-toolbar-tools">
-        <span flex></span>
-        <md-button class="md-button md-button-colored" ng-click="tests.dialog($event)">
-            New test
-        </md-button>
-    </div>
-</md-toolbar>
-<md-list>
-    <md-item ng-repeat="test in tests.list">
-        <md-toolbar md-theme="e">
-            <div class="md-toolbar-tools">
-                <p flex>{{ test.title }}</p>
-                <md-button class="md-button md-button-icon" ng-click="tests.dialog($event,test,$index)">
-                    <i class="ion-edit ion-2x ion"></i>
-                </md-button>
-                <md-button class="md-button md-button-icon" ng-click="tests.remove($event,test._id,$index)">
-                    <i class="ion-trash-a ion-2x ion"></i>
-                </md-button>
-            </div>
-        </md-toolbar>
-    </md-item>
-</md-list>
+<section class="test-tab">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <span flex></span>
+            <md-button class="md-button md-button-colored" ng-click="tests.dialog($event)">
+                New test
+            </md-button>
+        </div>
+    </md-toolbar>
+    <md-list>
+        <md-item ng-repeat="test in tests.list">
+            <md-toolbar md-theme="e">
+                <div class="md-toolbar-tools">
+                    <p flex>{{ test.title }}</p>
+                    <md-button class="md-button md-button-icon" ng-click="tests.dialog($event,test,$index)">
+                        <i class="ion-edit ion-2x ion"></i>
+                    </md-button>
+                    <md-button class="md-button md-button-icon" ng-click="tests.remove($event,test._id,$index)">
+                        <i class="ion-trash-a ion-2x ion"></i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+        </md-item>
+    </md-list>
+</section>

@@ -1,13 +1,10 @@
-<md-dialog class="medium dialog-edit">
+<md-dialog class="full dialog-edit">
     <form name="cuEdit" ng-submit="unit.save()">
         <md-toolbar md-theme="green">
             <div class="md-toolbar-tools">
                 <md-switch ng-model="unit.data.type" aria-label="Switch 2" ng-true-value="'submitted'" ng-false-value="'provided'" flex>
                     <span style="font-size:1em;">{{ unit.data.type }}</span>
                 </md-switch>
-                <md-button aria-label="github" type="button">
-                    <i class="ion-social-github ion-2x ion"></i>
-                </md-button>
                 <md-button aria-label="submit" class="md-button" type="submit">
                     <i class="ion-edit ion-2x ion"></i>
                 </md-button>

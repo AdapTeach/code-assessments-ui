@@ -13,10 +13,6 @@ function HeaderCtrl(persona,$state,$mdSidenav, Restangular) {
         $mdSidenav('left').toggle();
     };
 
-    this.toggleRight = function(){
-        $mdSidenav('right').toggle();
-    };
-
     this.isLoading = true;
 
     persona.init().then(function(){
@@ -31,7 +27,6 @@ function HeaderCtrl(persona,$state,$mdSidenav, Restangular) {
     persona.addLogoutListener(function () {
             self.me = null;
             self.isLoading = false;
-            $mdSidenav('right').toggle();
             $state.go('home');
         });
 }
