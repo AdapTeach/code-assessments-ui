@@ -1,5 +1,5 @@
 <md-dialog class="full dialog-edit">
-    <form name="guideCreation" ng-submit="test.save()">
+    <form name="guideEdit" ng-submit="test.save()">
         <md-toolbar md-theme="green">
             <div class="md-toolbar-tools">
                 <span flex></span>
@@ -11,8 +11,14 @@
                 </md-button>
             </div>
         </md-toolbar>
-        <md-content style="height: 500px;">
-            <md-text-float md-theme="light-green" label="test title..." flex type="text" ng-model="test.data.title"></md-text-float>
+        <md-content >
+            <md-text-float md-theme="light-green" name="title" label="test title..." flex type="text" ng-model="test.data.title"></md-text-float>
+            <ng-messages for="cuEdit.name.$error" ng-show="cuEdit.title.$touched">
+                <ng-message when="required">
+                    <i class="ion-android-warning"></i>
+                    a guide must have a name
+                </ng-message>
+            </ng-messages>
             <div ui-ace="app.AceConfig.java" ng-model="test.data.initializationCode"></div>
                 <md-toolbar md-theme="light-green">
                     <div class="md-toolbar-tools">
@@ -26,12 +32,9 @@
                     <md-item ng-repeat="expectation in test.data.expectations track by $index">
                         <md-item-content>
                             <div class="md-tile-content">
-                                <input type="text" ng-model="expectation" style="width:100%;"/>
+                                <input type="text" ng-model="expectation" style="width:100%;" placeholder="type an expectation" ng-change="test.updateExpectation($index,expectation)"/>
                             </div>
                             <div class="md-tile-right">
-                                <md-button aria-label="remove an expectation" ng-click="test.updateExpectation($index,expectation)" type="button">
-                                    <i class=" ion-2x ion-upload"></i>
-                                </md-button>
                                 <md-button aria-label="remove an expectation" ng-click="test.removeExpectation(expectation)" type="button">
                                     <i class=" ion-2x ion-trash-a"></i>
                                 </md-button>

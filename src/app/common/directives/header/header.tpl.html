@@ -6,7 +6,7 @@
             </md-button>
             <span hide-sm>My Super trainer app</span>
             <span flex></span>
-            <i class="ion-flask ion-2x" ng-if="header.isLoading"></i>
+            <md-progress-circular ng-if="header.isLoading"  md-mode="indeterminate"></md-progress-circular>
             <persona-login ng-if="!header.me && !header.isLoading" ng-click="header.isLoading = true">
                 <md-button aria-label="login">
                     <i class="ion ion-2x ion-log-in"></i>

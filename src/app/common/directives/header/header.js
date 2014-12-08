@@ -16,7 +16,7 @@ function HeaderCtrl(persona,$state,$mdSidenav, Restangular) {
     this.isLoading = true;
 
     persona.init().then(function(){
-        self.isLoading = false;
+        //self.isLoading = false;
     });
 
     persona.addLoginListener(function (loggedUser) {

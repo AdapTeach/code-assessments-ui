@@ -12,7 +12,7 @@
                     <i class="ion ion-2x ion-edit" style="color:#ffffff;"></i>
                 </md-button>
             </div>
-            <ng-messages for="assessmentForm.title.$error" ng-show="assessmentForm.$dirty">
+            <ng-messages for="assessmentForm.title.$error" ng-show="assessmentForm.title.$dirty">
                 <ng-message when="exist">
                     <i class="ion-android-warning"></i>
                     this title is already taken
@@ -48,7 +48,7 @@
             Guides
         </md-tab>
     </md-tabs>
-    <section ui-view="assessmentTab" class="gsapify-router" autoscroll="false">
+    <section ui-view="assessmentTab">
 
     </section>
 </section>
