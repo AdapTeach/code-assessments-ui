@@ -10,7 +10,7 @@
     "angular-material": "master",
     "restangular": "*",
     "angular-persona-jwt": "*",
-    "textAngular": "1.3.0-pre14",
+    "textAngular": "https://github.com/Charl---/textAngular",
     "code-assessment-editor": "*",
     "ionicons": "*",
     "animateCSS": "*",

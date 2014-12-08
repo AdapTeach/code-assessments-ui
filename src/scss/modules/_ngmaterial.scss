@@ -27,5 +27,21 @@
 }
 
 body{
-  overflow: hidden;
+//  overflow: hidden;
+}
+
+.ta-toolbar{
+  text-align:center;
+}
+
+.btn-group{
+  display: inline-block;
+}
+
+#toolbarWC,#toolbarCC{
+  display:none !important;
+}
+
+md-bottom-sheet{
+  overflow:hidden;
 }
