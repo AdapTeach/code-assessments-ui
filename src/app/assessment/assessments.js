@@ -72,6 +72,7 @@ function AssessmentsCtrl(ACE, list, assessment, assessmentsList, Submissions) {
     this.AceConfig = ACE;
     this.assessment = assessment;
     this.Submissions = Submissions;
+    console.log(this.assessment);
 }
 
 angular.module('assessment', [
