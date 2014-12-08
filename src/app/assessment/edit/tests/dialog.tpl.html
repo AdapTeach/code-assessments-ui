@@ -3,7 +3,7 @@
         <md-toolbar md-theme="green">
             <div class="md-toolbar-tools">
                 <span flex></span>
-                <md-button aria-label="submit" class="md-button" type="submit">
+                <md-button aria-label="submit" class="md-button" type="submit" ng-disabled="guideEdit.$invalid">
                     <i class="ion-edit ion-2x ion"></i>
                 </md-button>
                 <md-button aria-label="close" type="button" ng-click="test.cancel()">

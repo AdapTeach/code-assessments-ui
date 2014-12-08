@@ -10,7 +10,7 @@
     <md-content class="md-content-padding">
         <section layout="column" class="btn-list">
             <md-button class="md-button"
-                       ng-repeat="assessment in assessments"
+                       ng-repeat="assessment in nav.assessments"
                        aria-label="assessment button"
                        ui-route="/assessment/{{ assessment._id }}/compilationunits"
                        ng-class="{'md-primary' : $uiRoute}"

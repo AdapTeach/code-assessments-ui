@@ -1,24 +1,27 @@
-<header>
-    <md-toolbar md-theme="e">
-        <div class="md-toolbar-tools">
-            <md-button aria-label="navigation button" ng-click="header.toggleLeft()" ng-if="header.me">
-                <i class="ion-chevron-right ion ion-2x" ></i>
+<header md-toolbar md-theme="e" md-scroll-shrink="">
+    <div class="md-toolbar-tools">
+        <md-button aria-label="navigation button" ng-click="header.toggleLeft()" ng-if="header.me">
+            <i class="ion-chevron-right ion ion-2x" ></i>
+        </md-button>
+        <span hide-sm>My Super trainer app</span>
+        <span flex></span>
+        <md-progress-circular ng-if="header.isLoading"  md-mode="indeterminate"></md-progress-circular>
+        <persona-login ng-if="!header.me && !header.isLoading" ng-click="header.isLoading = true">
+            <md-button aria-label="login">
+                <md-tooltip>
+                    Login
+                </md-tooltip>
+                <i class="ion ion-2x ion-log-in"></i>
             </md-button>
-            <span hide-sm>My Super trainer app</span>
-            <span flex></span>
-            <md-progress-circular ng-if="header.isLoading"  md-mode="indeterminate"></md-progress-circular>
-            <persona-login ng-if="!header.me && !header.isLoading" ng-click="header.isLoading = true">
-                <md-button aria-label="login">
-                    <i class="ion ion-2x ion-log-in"></i>
-                </md-button>
-            </persona-login>
-            <persona-logout ng-if="header.me && !header.isLoading">
-                <md-button aria-label="logout">
-                    <i class="ion ion-2x ion-log-out"></i>
-                </md-button>
-            </persona-logout>
-        </div>
-    </md-toolbar>
-
-    <navigation assessments="header.assessments"></navigation>
+        </persona-login>
+        <persona-logout ng-if="header.me && !header.isLoading">
+            <md-button aria-label="logout">
+                <md-tooltip>
+                    Logout
+                </md-tooltip>
+                <i class="ion ion-2x ion-log-out"></i>
+            </md-button>
+        </persona-logout>
+    </div>
 </header>
+

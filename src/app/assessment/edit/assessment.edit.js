@@ -103,7 +103,6 @@ function AssessmentBottomCtrl($mdBottomSheet, assessment, $state) {
 angular.module('assessment.edit', [
     'textAngular',
     'assessment.edit.guides',
-    'assessment.edit.tips',
     'assessment.edit.tests',
     'assessment.edit.compilation'
 ])

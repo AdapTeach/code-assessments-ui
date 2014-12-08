@@ -4,11 +4,17 @@
             <div class="md-toolbar-tools">
                 <input type="text" ng-model="assessment.data.title" name="title" at-exist resource="assessment" flex placeholder="assessment title" required/>
                 <md-button ng-click="assessment.bottom()" ng-show="assessment.exist">
+                    <md-tooltip>
+                        Tools
+                    </md-tooltip>
                     <i class="ion ion-2x ion-grid"></i>
                 </md-button>
-                <collapse-button>
+                <collapse-button tooltip="Instructions">
                 </collapse-button>
-                <md-button class="md-button md-button-colored" type="submit" ng-hide="assessment.exist" ng-disabled="assessmentForm.$invalid || assessmentForm.$pending">
+                <md-button class="md-button md-button-colored" type="submit" ng-hide="assessment.exist" ng-disabled="assessmentForm.$invalid || assessmentForm.$pending" >
+                    <md-tooltip>
+                        Save
+                    </md-tooltip>
                     <i class="ion ion-2x ion-edit" style="color:#ffffff;"></i>
                 </md-button>
             </div>

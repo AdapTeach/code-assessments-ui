@@ -4,10 +4,8 @@
  * @name  HeaderCtrl
  * @description Controller
  */
-function HeaderCtrl(persona,$state,$mdSidenav, Restangular) {
+function HeaderCtrl(persona,$state,$mdSidenav) {
     var self = this;
-
-    this.assessments = Restangular.all('assessment').getList().$object;
 
     this.toggleLeft = function(){
         $mdSidenav('left').toggle();
@@ -15,9 +13,7 @@ function HeaderCtrl(persona,$state,$mdSidenav, Restangular) {
 
     this.isLoading = true;
 
-    persona.init().then(function(){
-        //self.isLoading = false;
-    });
+    persona.init();
 
     persona.addLoginListener(function (loggedUser) {
             self.isLoading = false;

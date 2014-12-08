@@ -4,8 +4,8 @@
  * @name  NavigationCtrl
  * @description Controller
  */
-function NavigationCtrl($scope) {
-
+function NavigationCtrl(Restangular) {
+    this.assessments = Restangular.all('assessment').getList().$object;
 }
 
 /**
@@ -17,6 +17,7 @@ function navigation(){
         restrict : 'EA',
         templateUrl : 'common/directives/navigation/navigation.tpl.html',
         controller : 'NavigationCtrl',
+        controllerAs: 'nav',
         scope: {
           assessments: '='
         }

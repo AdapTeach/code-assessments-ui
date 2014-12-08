@@ -23,9 +23,12 @@ function collapseCard(collapse){
 function collapseButton(collapse){
     return {
         restrict: 'EA',
-        transclude: true,
+        scope: {
+            tooltip: '@'
+        },
         templateUrl: 'common/directives/collapse-card/collapse-button.tpl.html',
         link: function(scope) {
+            console.log(scope)
             scope.button = collapse;
             scope.toggle = function toggle() {
                 collapse.isOpen = !collapse.isOpen;
