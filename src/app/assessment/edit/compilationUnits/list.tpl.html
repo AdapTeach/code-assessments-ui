@@ -8,7 +8,7 @@
         </div>
     </md-toolbar>
     <md-list>
-        <md-item ng-repeat="compilationUnit in compilationUnits.list">
+        <md-item ng-repeat="compilationUnit in compilationUnits.list | groupBy: 'type'">
             <md-toolbar md-theme="e">
                 <div class="md-toolbar-tools">
                     <p flex>{{ compilationUnit.name }}</p>

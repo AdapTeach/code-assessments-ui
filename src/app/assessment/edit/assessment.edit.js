@@ -56,6 +56,7 @@ function AssessmentCtrl($stateParams, Restangular, $mdToast, $mdBottomSheet, $st
 
 
     this.save = function () {
+        console.log(self.data);
         Restangular.all('assessment')
             .post(self.data)
             .then(function (createdAssessment) {

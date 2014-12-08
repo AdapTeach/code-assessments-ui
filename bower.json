@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "angular": "*",
+    "ng-messages": "*",
     "angular-ui-router": "*",
     "angular-ui-utils" : "bower-route",
     "angular-ui-ace": "*",

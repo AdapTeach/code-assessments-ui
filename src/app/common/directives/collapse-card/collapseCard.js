@@ -8,12 +8,13 @@ function collapseCard(collapse){
         templateUrl: 'common/directives/collapse-card/collapse-card.tpl.html',
         link: function(scope, element) {
             element.addClass('open');
-
+            element.find('section').toggleClass('open');
             scope.$watch(function(){
                 return collapse.isOpen;
             },function(){
-                element.toggleClass('open');
+                element.find('section').toggleClass('open');
                 scope.isOpen = collapse.isOpen;
+                console.log(collapse.isOpen)
             });
         }
     };
@@ -37,7 +38,7 @@ function collapse(){
     return {};
 }
 
-angular.module('common.collapse',[])
+angular.module('common.directives.collapse',[])
     .directive('collapseCard',collapseCard)
     .directive('collapseButton', collapseButton)
     .factory('collapse',collapse);

@@ -47,6 +47,7 @@ function run($log) {
 }
 
 angular.module('app', [
+    'ngMessages',
     'ngMaterial',
     'ui.router',
     'ui.ace',

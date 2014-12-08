@@ -3,7 +3,6 @@
 angular.module('common',[
     'common.interceptors',
     'common.filters',
-    'common.header',
-    'common.collapse',
-    'common.navigation'
+    'common.directives',
+    'common.validators'
 ]);

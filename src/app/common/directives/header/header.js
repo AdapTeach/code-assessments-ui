@@ -46,7 +46,7 @@ function mainHeader (){
 }
 
 
-angular.module('common.header', [])
+angular.module('common.directives.header', [])
     .controller('HeaderCtrl', HeaderCtrl)
     .directive('mainHeader',mainHeader);
 

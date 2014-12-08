@@ -24,7 +24,7 @@ function navigation(){
 }
 
 
-angular.module('common.navigation', [])
+angular.module('common.directives.navigation', [])
     .controller('NavigationCtrl', NavigationCtrl)
     .directive('navigation',navigation);
 
