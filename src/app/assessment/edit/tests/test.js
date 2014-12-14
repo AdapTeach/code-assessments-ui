@@ -5,19 +5,19 @@
  * @description Configuration of the tests list
  */
 
-function testConfig($stateProvider){
+function testConfig($stateProvider) {
     $stateProvider
-        .state('assessment.edit.tests',{
+        .state('assessment.edit.tests', {
             url: '/tests',
             resolve: {
-                list: function(Restangular,$stateParams){
+                list: function (Restangular, $stateParams) {
                     return Restangular
                         .one('assessment', $stateParams.id)
                         .getList('test');
                 }
             },
             views: {
-                assessmentTab : {
+                assessmentTab: {
                     templateUrl: 'assessment/edit/tests/list.tpl.html',
                     controller: 'TestListCtrl as tests'
                 }
@@ -26,34 +26,33 @@ function testConfig($stateProvider){
 }
 
 
-
 /**
  * @name  TestistCtrl
  * @description Controller of the test list in the tabs
  */
-function TestListCtrl($mdToast,list, $mdDialog, Restangular, $stateParams) {
+function TestListCtrl($mdToast, list, $mdDialog, Restangular, $stateParams) {
 
     var self = this;
 
     this.list = list;
 
-    this.dialog = function(event,test,index){
+    this.dialog = function (event, test, index) {
         $mdDialog
             .show({
                 templateUrl: 'assessment/edit/tests/dialog.tpl.html',
                 controller: 'TestCtrl as test',
-                targetEvent : event,
+                targetEvent: event,
                 locals: {
-                    data:  test || {expectations : []}
+                    data: test || {assertions: []}
                 }
             })
-            .then(function(response){
-                if(response.type === 'creation'){
+            .then(function (response) {
+                if (response.type === 'creation') {
                     self.list.push(response.data);
                     $mdToast.show({
                         template: '<md-toast>Test created</md-toast>'
                     });
-                }else{
+                } else {
                     self.list[index] = response.data;
                     $mdToast.show({
                         template: '<md-toast>Test updated</md-toast>'
@@ -62,7 +61,7 @@ function TestListCtrl($mdToast,list, $mdDialog, Restangular, $stateParams) {
 
             });
     };
-    this.remove = function(event, testId, index){
+    this.remove = function (event, testId, index) {
         var confirm = $mdDialog
             .confirm()
             .title('Confirm suppression ?')
@@ -73,12 +72,12 @@ function TestListCtrl($mdToast,list, $mdDialog, Restangular, $stateParams) {
 
         $mdDialog.show(confirm)
             .then(Restangular
-                .one('assessment',$stateParams.id)
-                .one('test',testId)
+                .one('assessment', $stateParams.id)
+                .one('test', testId)
                 .remove()
-            )
-            .then(function(){
-                self.list.splice(index,1);
+        )
+            .then(function () {
+                self.list.splice(index, 1);
                 $mdToast.show({
                     template: '<md-toast>test removed !</md-toast>'
                 });
@@ -90,12 +89,12 @@ function TestListCtrl($mdToast,list, $mdDialog, Restangular, $stateParams) {
  * @name  TestCtrl
  * @description Controller of the dialog of test edition
  */
-function TestCtrl(data,$stateParams,Restangular,$mdDialog) {
+function TestCtrl(data, $stateParams, Restangular, $mdDialog) {
     var self = this;
 
     this.data = Restangular.copy(data);
 
-    this.save = function(){
+    this.save = function () {
         if (self.data._id) {
             self.data
                 .put()
@@ -107,7 +106,7 @@ function TestCtrl(data,$stateParams,Restangular,$mdDialog) {
                 });
         } else {
             Restangular
-                .one('assessment',$stateParams.id)
+                .one('assessment', $stateParams.id)
                 .all('test')
                 .post(self.data)
                 .then(function (createdGuide) {
@@ -119,24 +118,24 @@ function TestCtrl(data,$stateParams,Restangular,$mdDialog) {
         }
     };
 
-    this.cancel = function(){
+    this.cancel = function () {
         $mdDialog.cancel();
     };
 
-    this.updateExpectation = function(index,value){
-        self.data.expectations[index] = value;
+    this.updateAssertion = function (index, value) {
+        self.data.assertions[index] = value;
     };
 
-    this.removeExpectation = function(index){
-        self.data.expectations.splice(index,1);
+    this.removeAssertion = function (index) {
+        self.data.assertions.splice(index, 1);
     };
 
-    this.addExpectation = function(){
-        self.data.expectations.push('');
+    this.addAssertion = function () {
+        self.data.assertions.push('');
     };
 }
 
-angular.module('assessment.edit.tests',[])
+angular.module('assessment.edit.tests', [])
     .config(testConfig)
     .controller('TestListCtrl', TestListCtrl)
     .controller('TestCtrl', TestCtrl);

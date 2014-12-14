@@ -11,8 +11,9 @@
                 </md-button>
             </div>
         </md-toolbar>
-        <md-content >
-            <md-text-float md-theme="light-green" name="title" label="test title..." flex type="text" ng-model="test.data.title"></md-text-float>
+        <md-content>
+            <md-text-float md-theme="light-green" name="title" label="test title..." flex type="text"
+                           ng-model="test.data.title"></md-text-float>
             <ng-messages for="cuEdit.name.$error" ng-show="cuEdit.title.$touched">
                 <ng-message when="required">
                     <i class="ion-android-warning"></i>
@@ -20,28 +21,31 @@
                 </ng-message>
             </ng-messages>
             <div ui-ace="app.AceConfig.java" ng-model="test.data.initializationCode"></div>
-                <md-toolbar md-theme="light-green">
-                    <div class="md-toolbar-tools">
-                        <span flex>Expectations</span>
-                        <md-button ng-click="test.addExpectation()" type="button">
-                            <i class="ion ion-2x ion-plus-circled"></i>
-                        </md-button>
-                    </div>
-                </md-toolbar>
-                <md-list>
-                    <md-item ng-repeat="expectation in test.data.expectations track by $index">
-                        <md-item-content>
-                            <div class="md-tile-content">
-                                <input type="text" ng-model="expectation" style="width:100%;" placeholder="type an expectation" ng-change="test.updateExpectation($index,expectation)"/>
-                            </div>
-                            <div class="md-tile-right">
-                                <md-button aria-label="remove an expectation" ng-click="test.removeExpectation(expectation)" type="button">
-                                    <i class=" ion-2x ion-trash-a"></i>
-                                </md-button>
-                            </div>
-                        </md-item-content>
-                    </md-item>
-                </md-list>
+            <md-toolbar md-theme="light-green">
+                <div class="md-toolbar-tools">
+                    <span flex>Expectations</span>
+                    <md-button ng-click="test.addAssertion()" type="button">
+                        <i class="ion ion-2x ion-plus-circled"></i>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            <md-list>
+                <md-item ng-repeat="assertion in test.data.assertions track by $index">
+                    <md-item-content>
+                        <div class="md-tile-content">
+                            <input type="text" ng-model="assertion" style="width:100%;"
+                                   placeholder="type an assertion"
+                                   ng-change="test.updateAssertion($index, assertion)"/>
+                        </div>
+                        <div class="md-tile-right">
+                            <md-button aria-label="remove an assertion" ng-click="test.removeAssertion(assertion)"
+                                       type="button">
+                                <i class=" ion-2x ion-trash-a"></i>
+                            </md-button>
+                        </div>
+                    </md-item-content>
+                </md-item>
+            </md-list>
         </md-content>
     </form>
 </md-dialog>
