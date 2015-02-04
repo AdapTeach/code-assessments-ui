@@ -1,0 +1,1 @@
+angular.module("app").run(["$templateCache", function($templateCache) {$templateCache.put("start/start.tpl.html","<h3>Start Your Project !</h3>\n\n<p ng-if=\"ctrl.instructionsAreDisplayed()\">{{ ctrl.instructions }}</p>\n\n<p><input type=\"text\" ng-model=\"ctrl.user.name\"></p>\n\n<p id=\"greetings\" ng-if=\"ctrl.greetingsAreDisplayed()\">Welcome, {{ ctrl.user.name }}</p>");}]);

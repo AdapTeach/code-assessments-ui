@@ -1,188 +1,160 @@
-var gulp = require('gulp'),
-    sass = require('gulp-sass'),
-    concat = require('gulp-concat-util'),
-    jshint = require('gulp-jshint'),
-    runSequence = require('run-sequence'),
-    del = require('del'),
-    refresh = require('gulp-livereload'),
-    lrserver = require('tiny-lr')(),
-    express = require('express'),
-    livereload = require('connect-livereload'),
-    copy = require('gulp-copy'),
-    uglify = require('gulp-uglify'),
-    usemin = require('gulp-usemin'),
-    annotate = require('gulp-ng-annotate'),
-    path = require('path'),
-    minifyCss = require('gulp-minify-css'),
-    minifyHtml = require('gulp-minify-html'),
-    rev = require('gulp-rev'),
-    sourcemaps = require('gulp-sourcemaps'),
+var path = require('path');
+
+var express = require('express'),
+    gulp = require('gulp'),
     templateCache = require('gulp-angular-templatecache'),
-    ngDocs = require('gulp-ngdocs'),
-    awspublish = require('gulp-awspublish'),
-    config = require('./config/build.config'),
-    testConfig = require('./config/test.config'),
-    deployConfig = require('./config/deploy.config');
+    concat = require('gulp-concat'),
+    jshint = require('gulp-jshint'),
+    liveReload = require('gulp-livereload'),
+    preprocess = require('gulp-preprocess'),
+    protractor = require('gulp-protractor').protractor,
+    protractorQA = require('gulp-protractor-qa'),
+    rename = require('gulp-rename'),
+    sourceMaps = require('gulp-sourcemaps'),
+    karma = require('karma').server;
+
+var config = require('./gulp.config');
+var paths = config.paths;
+
+var buildFolder = 'src/build';
 
 
-
+//////////
+// DEV //
+////////
 
 gulp.task('default', ['dev'], function () {
 });
 
 gulp.task('dev', [
-    'lint',
     'buildDev',
     'startDevServer',
-    'watchSource'
+    'watchSource',
+    'protractor-qa'
 ], function () {
 });
 
 gulp.task('buildDev', [
     'buildJs',
-    'buildStyle',
-    'cacheTemplates'
+    'cacheTemplates',
+    'buildMockBackendData'
 ], function () {
 });
 
-gulp.task('docs',function(){
-    var options = {
-        scripts: [config.js],
-        html5Mode: true,
-        startPage: '/',
-        title: "Code assessments Docs",
-        image: "https://startpage.com/graphics/startpage_logo_res.gif",
-        imageLink: "https://startpage.com/graphics/startpage_logo_res.gif"
-    };
-    gulp.src(config.js)
-        .pipe(ngDocs.process(options))
-        .pipe(gulp.dest('./docs'));
-    var docsServer = express();
-    docsServer.use(express.static('docs'));
-    docsServer.all('/*', function (req, res) {
-        res.sendFile('index.html', {root: 'docs'});
-    });
-    docsServer.listen(config.port);
-});
-
 gulp.task('buildJs', function () {
-    gulp.src(config.js)
-        .pipe(sourcemaps.init())
-        .pipe(concat(config.buildName, {process: function(src) { return (src.trim() + '\n').replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1'); }}))
-        .pipe(concat.header(config.header))
-        .pipe(concat.footer(config.footer))
-        .pipe(annotate())
-        //.pipe(concat(config.buildName))
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest(config.build))
-        .pipe(refresh(lrserver));
-});
-
-gulp.task('buildStyle', function () {
-    gulp.src(config.mainScss)
-        .pipe(sass())
-        .pipe(gulp.dest(config.build));
-    gulp.src(config.index)
-        .pipe(refresh(lrserver));
+    gulp.src(paths.jsSource)
+        .pipe(jshint())
+        .pipe(jshint.reporter('default')) // TODO Stylish
+        .pipe(sourceMaps.init())
+        .pipe(concat('all-source.js'))
+        .pipe(sourceMaps.write())
+        .pipe(gulp.dest(buildFolder))
+        .pipe(liveReload());
 });
 
 gulp.task('cacheTemplates', function () {
-    gulp.src(config.tpl)
-        .pipe(templateCache({module: config.module}))
-        .pipe(gulp.dest(config.build))
-        .pipe(refresh(lrserver));
+    gulp.src(paths.templates)
+        .pipe(templateCache({module: 'app'}))
+        .pipe(gulp.dest(buildFolder))
+        .pipe(liveReload());
+});
+
+gulp.task('buildMockBackendData', function () {
+    gulp.src(paths.mockBackendData)
+        .pipe(jshint())
+        .pipe(jshint.reporter('default')) // TODO Stylish
+        .pipe(concat('all-mock-backend-data.js'))
+        .pipe(gulp.dest('src/build'))
+        .pipe(liveReload());
+    //gulp.src(paths.indexFile)
+    //    .pipe(preprocess({
+    //        context: {mockBackend: true}
+    //    }))
+    //    .pipe(rename('index-mb.html'))
+    //    .pipe(gulp.dest(paths.srcFolder));
 });
 
 gulp.task('startDevServer', function () {
     var devServer = express();
-    devServer.use(livereload({port: config.livereloadport}));
-    devServer.use(express.static(config.base));
+    devServer.use(express.static(paths.srcFolder));
     devServer.all('/*', function (req, res) {
-        res.sendFile('index.html', {root: config.base});
+        res.sendFile('index.html', {root: 'src'});
     });
     devServer.listen(config.port);
-    lrserver.listen(config.livereloadport);
 });
+
+
+/////////////////////
+// WATCH & RELOAD //
+///////////////////
 
 gulp.task('watchSource', function () {
-    gulp.watch(config.js, ['buildJs', 'lint']);
-    gulp.watch(config.scss, ['buildStyle']);
-    gulp.watch(config.index, ['reloadIndex']);
-    gulp.watch(config.tpl, ['cacheTemplates']);
+    liveReload.listen();
+    gulp.watch(paths.jsSource, ['buildJs']);
+    gulp.watch(paths.indexFile, ['reloadIndex']);
+    gulp.watch(paths.templates, ['cacheTemplates']);
+    gulp.watch(paths.mockBackendData, ['buildMockBackendData']);
 });
-
 
 gulp.task('reloadIndex', function () {
-    gulp.src(config.index)
-        .pipe(refresh(lrserver));
-});
-
-gulp.task('lint', function () {
-    gulp.src(config.js)
-        .pipe(jshint())
-        .pipe(jshint.reporter('jshint-stylish'));
+    gulp.src(paths.indexFile)
+        .pipe(liveReload());
 });
 
 
-/////////////////////////////////////
-/////////////// PROD ///////////////
-///////////////////////////////////
+///////////////////
+// UNIT TESTING //
+/////////////////
 
+var pathToKarmaConfigFile = path.resolve(paths.karmaConfigFile);
 
-gulp.task('prod', [
-    'dist',
-    'startProdServer'
-], function () {
+gulp.task('unit', function (done) {
+    karma.start({
+        configFile: pathToKarmaConfigFile,
+        singleRun: true,
+        autoWatch: false
+    }, done);
 });
 
-gulp.task('dist', function () {
-        runSequence(
-            'cleanDistFolder',
-            'buildDev',
-            'buildDist'
-        );
-    }
-);
+gulp.task('tdd', function (done) {
+    karma.start({
+        configFile: pathToKarmaConfigFile
+    }, done);
 
-gulp.task('cleanDistFolder', function (cb) {
-    del(config.dist, cb);
 });
 
-gulp.task('buildDist',['copyImages','copyFonts'], function () {
-    gulp.src(config.index)
-        .pipe(usemin({
-            css: [minifyCss()],
-            html: [minifyHtml({empty: true})],
-            js: [uglify(), rev()]
+
+//////////////////
+// E2E TESTING //
+////////////////
+
+// TODO Test production
+// TODO Exit gulp task when tests have run
+gulp.task('e2e', [
+    'buildDev',
+    'startDevServer'
+], runProtractor);
+
+function runProtractor(cb) {
+    gulp.src(paths.e2eTests)
+        .pipe(protractor({
+            configFile: paths.protractorConfigFile,
+            args: ['--baseUrl', 'http://localhost:' + config.port]
         }))
-        .pipe(gulp.dest(config.dist));
-});
+        .on('error', function (e) { // Swallow
+        })
+        .on('end', cb);
+}
 
-gulp.task('copyImages', function(){
-    gulp.src(config.images)
-        .pipe(copy(config.dist, {prefix: 1}));});
+gulp.task('protractor', runProtractor);
 
-gulp.task('copyFonts', function(){
-    gulp.src(config.fonts)
-        .pipe(copy(config.dist+'/assets',{ prefix : 3 }));
-});
+///////////
+// MISC //
+/////////
 
-gulp.task('startProdServer', function () {
-    var server = express();
-    server.use(express.static(config.dist));
-    server.all('/*', function (req, res) {
-        res.sendFile('index.html', {root: config.dist});
+gulp.task('protractor-qa', function () {
+    protractorQA.init({
+        testSrc: [paths.e2eTests, paths.pageObjects],
+        viewSrc: [paths.indexFile, paths.templates]
     });
-    server.listen(config.port);
-});
-
-gulp.task('s3', function () {
-    var publisher = awspublish.create(deployConfig);
-    var headers = {
-        'Cache-Control': 'max-age=5, no-transform, public' // 5 seconds cache TTL
-    };
-    return gulp.src('dist/**/*')
-        .pipe(publisher.publish(headers))
-        .pipe(publisher.cache()) // create a cache file to speed up consecutive uploads
-        .pipe(awspublish.reporter());
 });

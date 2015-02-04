@@ -1,27 +1,8 @@
-# general
+# IDE config files
 .idea
-.DS_Store
-.sass-cache
 
-#config
-config/deploy.config.js
-
-# package control
 node_modules
-src/vendor
-
-# logs
-npm-debug.log
-
-# build
 src/build
-dist
-
-#docs
-docs
-
-#test
-test/screenshots/*
-!test/screenshots/README.md
-test/unit-results/*
-!test/unit-results/README.md
+src/vendor
+src/index-mb.html
+npm-debug.log
